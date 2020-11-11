@@ -5,6 +5,7 @@ timerApp.display = $('.display');
 timerApp.userInputs = [$('#years'), $('#days'), $('#hours'), $('#minutes'), $('#seconds')];
 timerApp.conversionFactors = [365 * 24 * 60 * 60, 24 * 60 *60, 60 * 60, 60, 1];
 timerApp.timeValues = [];
+timerApp.toggleInterval = true;
 
 timerApp.getInputValues = function() {
     return timerApp.userInputs.map( (value) => value.val() );
@@ -47,6 +48,17 @@ timerApp.convertUnits = function(inputValues) {
     });
     return convertedValues;
 }
+timerApp.convertUnits2 = function(totalTimeInSeconds, inputValues) {
+    let convert;
+    let convertedValues = inputValues.map( (value, index) => {
+        convert = timerApp.unitConversionHelper(totalTimeInSeconds);
+        value = convert(timerApp.conversionFactors[index]);
+        totalTimeInSeconds -= value * timerApp.conversionFactors[index];
+        value = timerApp.toString(value);
+        return value;
+    });
+    return convertedValues;
+}
 timerApp.countdownHelper = function(timeValue) {
     return function(isReduced) {
         return function(maxValue) {
@@ -58,10 +70,15 @@ timerApp.countdownHelper = function(timeValue) {
 }
 timerApp.countdown = function(convertedValues) {
     let numericalValues = convertedValues.map( timerApp.toNum );
-    let isReduced = true;
-    let checkTimeValue = timerApp.countdownHelper(numericalValues.pop);
-    let updateTimeValue = checkTimeValue(isReduced);
-    isReduced = updateTimeValue(59);
+    let totalTimeInSeconds = timerApp.findTotalTimeInSeconds(numericalValues);
+    if (totalTimeInSeconds > 0) { totalTimeInSeconds--; }
+    timerApp.timeValues = timerApp.convertUnits2(totalTimeInSeconds, numericalValues);
+    timerApp.displayTimeValues(timerApp.timeValues);
+    console.log('counting down');
+    // let isReduced = true;
+    // let checkTimeValue = timerApp.countdownHelper(numericalValues.pop);
+    // let updateTimeValue = checkTimeValue(isReduced);
+    // isReduced = updateTimeValue(59);
 }
 
 timerApp.displayYearAndDay = function(yearValue, dayValue) {
@@ -78,6 +95,7 @@ timerApp.displayYearAndDay = function(yearValue, dayValue) {
 }
 
 timerApp.displayTimeValues = function(convertedValues) {
+    timerApp.display.html('');
     timerApp.displayYearAndDay(convertedValues[0], convertedValues[1]);
     convertedValues.forEach( (value, index) => {
         if (index > 1 && index < 4) {
@@ -87,18 +105,25 @@ timerApp.displayTimeValues = function(convertedValues) {
             timerApp.display.append(`<span>${value}</span>`);
         }
     });
-    timerApp.display.toggleClass('hidden');
+    
 }
 
 timerApp.handleButton = function() {
     timerApp.startButton.on('click', () => {
         timerApp.startButton.toggleClass('cancel');
-        timerApp.display.html('');
+        timerApp.display.toggleClass('hidden');
         timerApp.timeValues = timerApp.convertUnits(timerApp.getInputValues());
         timerApp.resetInputValues();
         timerApp.displayTimeValues(timerApp.timeValues);
-        timerApp.countdown(timerApp.timeValues);
-        
+        timerApp.toggleInterval = !timerApp.toggleInterval;
+        console.log(timerApp.toggleInterval)
+        let myTimer= null;
+        if (!timerApp.toggleInterval) {
+            myTimer = setInterval( () => timerApp.countdown(timerApp.timeValues), 1000);
+        } else { 
+            console.log('cleared');
+            clearInterval(myTimer);
+        }
     });
 }
 
