@@ -108,6 +108,8 @@ timerApp.displayTimeValues = function(convertedValues) {
     
 }
 
+timerApp.myTimer;
+
 timerApp.handleButton = function() {
     timerApp.startButton.on('click', () => {
         timerApp.startButton.toggleClass('cancel');
@@ -117,12 +119,11 @@ timerApp.handleButton = function() {
         timerApp.displayTimeValues(timerApp.timeValues);
         timerApp.toggleInterval = !timerApp.toggleInterval;
         console.log(timerApp.toggleInterval)
-        let myTimer= null;
         if (!timerApp.toggleInterval) {
-            myTimer = setInterval( () => timerApp.countdown(timerApp.timeValues), 1000);
+            timerApp.myTimer = setInterval( () => timerApp.countdown(timerApp.timeValues), 1000);
         } else { 
             console.log('cleared');
-            clearInterval(myTimer);
+            clearInterval(timerApp.myTimer);
         }
     });
 }
