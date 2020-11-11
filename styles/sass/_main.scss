@@ -1,0 +1,45 @@
+main {
+    flex: 1 0 0;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 10vh;
+}
+
+form {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 50vw auto;
+    gap: 25px;
+}
+
+.display {
+    display: flex;
+    flex-flow: row wrap;
+    span {
+        flex: 1 30vw;
+        text-align: center;
+        font-size: 1000%;
+    }
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25vw;
+    height: 25vw;
+    background-color: rgb(44, 172, 12);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 30vw;
+    h3 {
+        text-transform: uppercase;
+        color: whitesmoke;
+    }
+}
+
+.hidden {
+    display: none;
+}
