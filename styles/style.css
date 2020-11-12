@@ -366,6 +366,21 @@ form {
   display: none;
 }
 
+.endingAnimations {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+}
+
+.endingAnimations .container {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: calc(50% - 15px);
+  left: calc(50% - 15px);
+}
+
 footer {
   position: relative;
   padding: 10px;
