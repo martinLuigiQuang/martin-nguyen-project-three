@@ -4,7 +4,7 @@ main {
     flex-flow: column nowrap;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 10vh;
+    padding-top: 5vh;
 }
 
 form {
@@ -12,17 +12,26 @@ form {
     justify-content: center;
     grid-template-columns: 50vw auto;
     gap: 25px;
+    font-size: 20px;
 }
 
 .display {
     display: flex;
     flex-flow: row wrap;
+    justify-content: center;
+    width: calc(100vw - 50px);
+    .year {
+        height: 80px;
+        width: 100%;
+    }
     span {
-        flex: 1 30vw;
+        flex: 0 0 25vw;
         text-align: center;
-        font-size: 1000%;
+        font-size: 700%;
     }
 }
+
+
 
 .button {
     display: flex;

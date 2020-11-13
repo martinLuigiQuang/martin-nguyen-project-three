@@ -6,13 +6,12 @@
     <title>Timer</title>
     <!-- Font awesome -->
     <script src="https://kit.fontawesome.com/6ef8eb0028.js" crossorigin="anonymous"></script>
-    <link rel='stylesheet' href='https://unpkg.com/emoji.css/dist/emoji.min.css'>
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
     <header>
         <h1>Timer</h1>
-        <a href=""><i class="far fa-cog"></i></a>
+        <a href=""><i class="fas fa-cogs"></i></a>
     </header>
     <main>
         <form>
@@ -32,6 +31,8 @@
             <label for="seconds">seconds</label>
         </form>
         <div class="display hidden">
+            <div class="year"></div>
+            <div class="day"></div>
         </div> <!-- closing display -->
         <div class="button">
             <h3>Start</h3>
@@ -41,7 +42,7 @@
         <p>Created at Juno College</p>
         <div class="signature"></div>
     </footer>
-    <div class="endingAnimations">
+    <div class="endingAnimations hidden">
     </div> <!-- closing animations -->
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

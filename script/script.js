@@ -142,71 +142,70 @@ timerApp.displayYearAndDay = function(yearValue, dayValue) {
         timerApp.display.append(`<div class="year"><span>${yearValue}</span><span>${yearNoun}</span></div>`); 
         timerApp.display.append(`<div class="day"><span>${dayValue}</span><span>${dayNoun}</span></div>`); 
     } else if (dayValue !== '00') {
-        if ($('.year')) { $('.year').remove(); }
+        // if ($('.year')) { $('.year').remove(); }
         timerApp.display.append(`<div class="day"><span>${dayValue}</span><span>${dayNoun}</span></div>`);
     } else if ($('.day')) { 
-        $('.day').remove(); 
+        // $('.day').remove(); 
     }
 }
 
-// Function to control button clicks and the sequence of events that follow
-timerApp.handleButton = function() {
-    timerApp.startButton.on('click', () => {
-        timerApp.startButton.toggleClass('cancel');
-        timerApp.display.toggleClass('hidden');
-        timerApp.timeValues = timerApp.convertUnits(timerApp.getInputValues());
-        timerApp.resetInputValues();
-        timerApp.displayTimeValues(timerApp.timeValues);
-        if (timerApp.timerOn) {
-            timerApp.startTimer(timerApp.timeValues);
-        } else {
-            clearTimeout(timerApp.myTimer);
-        }
-        timerApp.timerOn = !timerApp.timerOn;
-    });
+timerApp.startSequence = function() {
+    timerApp.startButton.toggleClass('cancel');
+    timerApp.display.toggleClass('hidden');
+    timerApp.timeValues = timerApp.convertUnits(timerApp.getInputValues());
+    timerApp.resetInputValues();
+    timerApp.displayTimeValues(timerApp.timeValues);
+    if (timerApp.timerOn) {
+        timerApp.startTimer(timerApp.timeValues);
+    } else {
+        clearTimeout(timerApp.myTimer);
+    }
+    timerApp.timerOn = !timerApp.timerOn;
 }
 
-timerApp.handleForm = function() {
-    timerApp.form.on('keyup', (e) => {
-        if (e.keyCode === 13) {
-            timerApp.startButton.toggleClass('cancel');
-            timerApp.display.toggleClass('hidden');
-            timerApp.timeValues = timerApp.convertUnits(timerApp.getInputValues());
-            timerApp.resetInputValues();
-            timerApp.displayTimeValues(timerApp.timeValues);
-            if (timerApp.timerOn) {
-                timerApp.startTimer(timerApp.timeValues);
-            } else {
-                clearTimeout(timerApp.myTimer);
-            }
-            timerApp.timerOn = !timerApp.timerOn;
-        }
-    });
-}
- 
 timerApp.emojis = ['127809','127810','127809','127810','127811'];
 timerApp.animationCanvas = $('.endingAnimations');
-timerApp.viewportHeight = $(window).height();
-timerApp.viewportWidth = $(window).width();
-timerApp.playExplosion = function(numberOfEmojis) {
-    let emoji = timerApp.emojis[timerApp.randomNumberGenerator(0, timerApp.emojis.length)];
-    let positionTop = timerApp.randomNumberGenerator(-100, 200);
-    let positionLeft = timerApp.randomNumberGenerator(-100, 200);
-    let fontSize = timerApp.randomNumberGenerator(10, 100);
-    let animationDuration = timerApp.randomNumberGenerator(1000, 2000);
-    timerApp.animationCanvas.append(`<div class="emojiContainer number${numberOfEmojis}">&#${emoji}</div>`);
-    let numberedEmoji = $(`.number${numberOfEmojis}`);
-    numberedEmoji.animate({
-        'left': `${positionLeft}vw`,
-        'top': `${positionTop}vh`,
-        'opacity': '0.5',
-        'font-size': `${fontSize}px`
-    }, animationDuration);
-    setTimeout(() => timerApp.terminateAnimation(numberedEmoji), animationDuration);
+timerApp.explosion = function(numberOfEmojis) {
+    let prep = timerApp.prepareAnimation(numberOfEmojis, [-100, 200], [-100, 200], [10, 100]);
+    timerApp.animate.apply(null, prep);
     numberOfEmojis--;
     if (numberOfEmojis > 0) {
-        timerApp.playExplosion(numberOfEmojis);
+        timerApp.explosion(numberOfEmojis);
     }
+}
+timerApp.fountain = function(numberOfEmojis) {
+    let prep = timerApp.prepareAnimation(numberOfEmojis, [-100, 20], [-100, 200], [10, 100]);
+    prep[0].css('top', '100%');
+    timerApp.animate.apply(null, prep);
+    numberOfEmojis--;
+    if (numberOfEmojis > 0) {
+        setTimeout( () => timerApp.fountain(numberOfEmojis), 20);
+    }
+}
+
+timerApp.prepareAnimation = function(numberOfEmojis, topValues, leftValues, fontSizes) {
+    let emoji = timerApp.emojis[timerApp.randomNumberGenerator(0, timerApp.emojis.length)];
+    let positionTop = timerApp.randomNumberGenerator.apply(null, topValues);
+    let positionLeft = timerApp.randomNumberGenerator.apply(null, leftValues);
+    let fontSize = timerApp.randomNumberGenerator.apply(null, fontSizes);
+    let animationDuration = timerApp.randomNumberGenerator(1000, 2000);
+    timerApp.animationCanvas.append(`<div class="emojiContainer number${numberOfEmojis}">&#${emoji}</div>`);
+    emoji = $(`.number${numberOfEmojis}`);
+    return [emoji, positionTop, positionLeft, fontSize, animationDuration];
+}
+timerApp.animate = function(emoji, positionTop, positionLeft, fontSize, animationDuration) {
+    emoji.animate({
+        'left': `${positionLeft}vw`,
+        'top': `${positionTop}vh`,
+        'opacity': '0.2',
+        'font-size': `${fontSize}px`
+    }, {
+        'duration': animationDuration,
+        'step': function(now) {
+            emoji.css({'transform': `rotate(${now*10}deg) translateY(${now}px)`});
+        }
+    });
+    setTimeout(() => timerApp.terminateAnimation(emoji), animationDuration / 1.2);
 }
 timerApp.terminateAnimation = function(numberedEmoji) {
     numberedEmoji.remove();
@@ -215,11 +214,25 @@ timerApp.randomNumberGenerator = function(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+timerApp.init = function() {
+    timerApp.startButton.on('click', () => {
+        timerApp.startSequence();
+    });
+    timerApp.form.on('keyup', (event) => {
+        if (event.keyCode === 13) {
+            timerApp.startSequence();
+        }
+    });
+    if (timerApp.randomNumberGenerator(1, 3) === 1) {
+        timerApp.explosion(50);
+    } else {
+        timerApp.fountain(100);
+    }
+    // timerApp.playCatherineWheel(500, 2 * Math.PI / 500);
+}
 
 $(document).ready(function() {
-    timerApp.handleButton();
-    timerApp.handleForm();
-    timerApp.playExplosion(15);
+    timerApp.init()
 })
 
 // Work in progress
@@ -264,4 +277,17 @@ timerApp.test.updateTime = function(index, timeValues) {
         }
     }
     return timeValues;
+}
+timerApp.test.playCatherineWheel = function(numberOfEmojis, angle) {
+    let prep = timerApp.prepareAnimation(numberOfEmojis, [50, 100], [-10, 80], [30, 31]);
+    angle += 2 * Math.PI / 50;
+    prep[0].css({
+        'top': `+=${70*Math.sin(angle)}px`,
+        'left': `+=${70*Math.cos(angle)}px`
+    });
+    timerApp.animate.apply(null, prep);
+    numberOfEmojis--;
+    if (numberOfEmojis > 0) {
+        setTimeout( () => timerApp.playCatherineWheel(numberOfEmojis, angle), 150);
+    }
 }
