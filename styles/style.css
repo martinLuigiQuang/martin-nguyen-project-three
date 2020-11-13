@@ -373,12 +373,22 @@ form {
   z-index: 1;
 }
 
-.endingAnimations .container {
+.endingAnimations .emojiContainer {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  top: calc(50% - 15px);
-  left: calc(50% - 15px);
+  font-size: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 50px;
+  height: 50px;
+  top: calc(50%);
+  left: calc(50% - 25px);
 }
 
 footer {
