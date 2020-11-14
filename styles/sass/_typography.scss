@@ -4,19 +4,43 @@
     text-transform: uppercase;
 }
 
+form {
+    font-family: 'Goldman', cursive;
+    font-size: 2rem;
+}
+
+.display {
+    span {
+        font-family: 'Big Shoulders Stencil Display', cursive;
+        font-size: 10rem;
+    }
+}
+
 h1 {
-    font-size: 5rem;
+    font-family: 'Goldman', cursive;
+    font-size: 4.9rem;
+    color: $vintageBlack;
 }
 
 h2 {
     font-size: 4rem;
 }
 
-a, h3 {
+h3 {
+    font-family: 'Goldman', cursive;
     font-size: 2rem;
     font-weight: 700;
 }
 
+.fa-cogs:before {
+    font-size: 3rem;
+}
+
+.fa-calendar-alt:before {
+    font-size: 5rem;
+}
+
 footer {
+    font-family: 'Goldman', cursive;
     font-size: 1.8rem;
 }

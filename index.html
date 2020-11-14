@@ -6,11 +6,14 @@
     <title>Timer</title>
     <!-- Font awesome -->
     <script src="https://kit.fontawesome.com/6ef8eb0028.js" crossorigin="anonymous"></script>
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@400;700&family=Goldman:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
     <header>
-        <h1>Timer</h1>
+        <h1>my timer</h1>
         <a href=""><i class="fas fa-cogs"></i></a>
     </header>
     <main>
@@ -30,17 +33,24 @@
             <input type="number" max="99999999" name="seconds" id="seconds">
             <label for="seconds">seconds</label>
         </form>
+        <label for="calendar" class="srOnly">Set future date for countdown</label>
+        <div class="calendar" id="calendar">
+            <h3>13</h3>
+            <h3>11</h3>
+            <div></div>
+            <div></div>
+        </div>
         <div class="display hidden">
             <div class="year"></div>
             <div class="day"></div>
         </div> <!-- closing display -->
-        <div class="button">
+        <label for="button" class="srOnly">Start Button - press again to cancel</label>
+        <div class="button" id="button">
             <h3>Start</h3>
         </div> <!-- closing button -->
     </main>
     <footer>
         <p>Created at Juno College</p>
-        <div class="signature"></div>
     </footer>
     <div class="endingAnimations hidden">
     </div> <!-- closing animations -->

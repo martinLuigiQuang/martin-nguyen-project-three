@@ -4,7 +4,6 @@ timerApp.form = $('form');
 timerApp.startButton = $('.button');
 timerApp.display = $('.display');
 timerApp.userInputs = [$('#years'), $('#days'), $('#hours'), $('#minutes'), $('#seconds')];
-
 // Array of conversion factors
 timerApp.conversionFactors = [365 * 24 * 60 * 60, 24 * 60 *60, 60 * 60, 60, 1];
 // Empty array to store processed time values
@@ -14,12 +13,13 @@ timerApp.myTimer;
 timerApp.timerOn = true;
 
 // General purpose functions to get and reset user input fields
-timerApp.getInputValues = function() {
-    return timerApp.userInputs.map( (input) => input.val() );
+
+timerApp.getInputValues = function(userInputs) {
+    return userInputs.map( (input) => input.val() );
 }
-timerApp.resetInputValues = function() {
-    timerApp.form.toggleClass('hidden');
-    timerApp.userInputs.map( (input) => input.val('') );
+timerApp.resetInputValues = function(form, userInputs) {
+    form.toggleClass('hidden');
+    userInputs.map( (input) => input.val('') );
 }
 
 // Main function - convertUnits(inputValues) - to process raw input data into standard format
@@ -43,7 +43,14 @@ timerApp.findTotalTimeInSeconds = function(inputValues) {
         // total time in seconds is calculated by adding each input value with corresponding conversion factor (e.g. 1 hour = 60 * 60 seconds, etc...)
         totalTimeInSeconds += value * timerApp.conversionFactors[index];
     });
+    totalTimeInSeconds = timerApp.checkTotal(totalTimeInSeconds);
     return totalTimeInSeconds;
+}
+timerApp.checkTotal = function(rawTotal) {
+    if (rawTotal > Number.MAX_SAFE_INTEGER) {
+        rawTotal = Number.MAX_SAFE_INTEGER;
+    }
+    return rawTotal;
 }
 timerApp.conversionCalculator = function(totalTimeInSeconds, factor) {
     // return formula to be used in the main convertUnits(inputValues) function
@@ -61,11 +68,16 @@ timerApp.startTimer = function(convertedValues) {
 timerApp.countdownMain = function(years, days, hours, minutes, seconds) {
     // first decrease the number of seconds by 1 every time the function is called
     seconds--;
+    timerApp.countdownAnimation(years, days, hours, minutes, seconds);
     // if the number of seconds is greater than zero, recursively call countdownMain function every 1 second which decreases the number of seconds by 1 every time it is called.
     if (seconds >= 0) {
         // display the new time on the screen
         timerApp.displayTimeValues([years, days, hours, minutes, seconds]);
-        timerApp.myTimer = setTimeout(timerApp.countdownMain, 1000, years, days, hours, minutes, seconds);  
+        if (seconds > 0) {
+            timerApp.myTimer = setTimeout(timerApp.countdownMain, 1000, years, days, hours, minutes, seconds);  
+        } else {
+            timerApp.countdownMain(years, days, hours, minutes, seconds);
+        }
     } else if (timerApp.checkTime([minutes, hours, days, years])) {
         // if the number of seconds dips below 0, reset it to 60
         seconds = 60;
@@ -86,7 +98,7 @@ timerApp.countdownMain = function(years, days, hours, minutes, seconds) {
         // Recursive call to countdownMain function to continue counting down
         timerApp.countdownMain(years, days, hours, minutes, seconds);
     } else {
-        return true;
+        timerApp.startAnimation(timerApp.randomNumberGenerator(1,100), timerApp.animationCanvas);
     }
 }
 // helper function checkTime(timeValues) checks if any of the input time values is greater than zero
@@ -106,26 +118,29 @@ timerApp.countdown = function(timeValue, maxValue) {
     // return the new timeValue
     return timeValue;
 }
+timerApp.countdownAnimation = function(years, days, hours, minutes, seconds) {
+    if (seconds <= 10 && !timerApp.checkTime([minutes, hours, days, years])) {
+        timerApp.animationCanvas.removeClass('hidden');
+        timerApp.explosion(1);
+    }
+}
 
 // Main function to display the time values on screen
 timerApp.displayTimeValues = function(convertedValues) {
     let stringValues = convertedValues.map(timerApp.toString);
+    let timeUnits = ['year', 'day', 'hour', 'minute', 'second'];
     timerApp.display.html('');
-    timerApp.displayYearAndDay.apply(null, stringValues.slice(0, 2));
     stringValues.forEach( (value, index) => {
-        if (index > 1 && index < 4) {
-            timerApp.display.append(`<span>${value}:</span>`);
-        }
-        if (index === 4) {
-            timerApp.display.append(`<span>${value}</span>`);
-        }
+        timerApp.show(timerApp.display, timeUnits[index], value, index); 
     });
 }
 // Helper function to convert numerical value array into an array of string values for display
 timerApp.toString = function(numericalValue) {
     if (numericalValue < 10) { 
         return '0' + numericalValue; 
-    } else { 
+    } else if (numericalValue > 999) {
+        return '999'; 
+    } else {
         return '' + numericalValue;
     }
 }
@@ -135,25 +150,32 @@ timerApp.checkPlural = function(value, noun) {
     return noun + 's';
 }
 // Helper function to display Year and Day values as these are displayed differently from the rest
-timerApp.displayYearAndDay = function(yearValue, dayValue) {
-    let yearNoun = timerApp.checkPlural(yearValue, 'year');
-    let dayNoun = timerApp.checkPlural(dayValue, 'day');;
-    if (yearValue !== '00') { 
-        timerApp.display.append(`<div class="year"><span>${yearValue}</span><span>${yearNoun}</span></div>`); 
-        timerApp.display.append(`<div class="day"><span>${dayValue}</span><span>${dayNoun}</span></div>`); 
-    } else if (dayValue !== '00') {
-        // if ($('.year')) { $('.year').remove(); }
-        timerApp.display.append(`<div class="day"><span>${dayValue}</span><span>${dayNoun}</span></div>`);
-    } else if ($('.day')) { 
-        // $('.day').remove(); 
+timerApp.show = function(display, timeUnit, value, index) {
+    display.append(`
+        <span id="${timeUnit}1">${value.charAt(0)}</span>
+        <span id="${timeUnit}2">${value.charAt(1)}</span>
+    `);
+    if (index < 4) { display.append(`<span id="${timeUnit}Colon">:</span>`) }
+    if (value.length === 3) {
+        display.append(`<span id="${timeUnit}3">${value.charAt(2)}</span>`);
+        $(`#${timeUnit}3`).insertBefore(`#${timeUnit}Colon`);
     }
+    return display;
 }
 
+timerApp.buttonControl = function(button) {
+    button.toggleClass('cancel');
+    if (button.hasClass('cancel')) {
+        button.html('<h3>cancel</h3>');
+    } else {
+        button.html('<h3>start</h3>');
+    }
+}
 timerApp.startSequence = function() {
-    timerApp.startButton.toggleClass('cancel');
+    timerApp.buttonControl(timerApp.startButton);
     timerApp.display.toggleClass('hidden');
-    timerApp.timeValues = timerApp.convertUnits(timerApp.getInputValues());
-    timerApp.resetInputValues();
+    timerApp.timeValues = timerApp.convertUnits(timerApp.getInputValues(timerApp.userInputs));
+    timerApp.resetInputValues(timerApp.form, timerApp.userInputs);
     timerApp.displayTimeValues(timerApp.timeValues);
     if (timerApp.timerOn) {
         timerApp.startTimer(timerApp.timeValues);
@@ -161,12 +183,27 @@ timerApp.startSequence = function() {
         clearTimeout(timerApp.myTimer);
     }
     timerApp.timerOn = !timerApp.timerOn;
+    
 }
+
 
 timerApp.emojis = ['127809','127810','127809','127810','127811'];
 timerApp.animationCanvas = $('.endingAnimations');
+timerApp.startAnimation = function(randomNumber, canvas) {
+    canvas.removeClass('hidden');
+    if (randomNumber > 50) {
+        isFinished = timerApp.explosion(50);
+    } else {
+        isFinished = timerApp.fountain(100);
+    }
+}
+timerApp.stopAnimation = function(canvas) {
+    canvas.on('click', () => {
+        canvas.addClass('hidden');
+    });
+}
 timerApp.explosion = function(numberOfEmojis) {
-    let prep = timerApp.prepareAnimation(numberOfEmojis, [-100, 200], [-100, 200], [10, 100]);
+    let prep = timerApp.prepareAnimation(numberOfEmojis, [-100, 200], [-100, 200], [50, 100], 0.2);
     timerApp.animate.apply(null, prep);
     numberOfEmojis--;
     if (numberOfEmojis > 0) {
@@ -174,7 +211,7 @@ timerApp.explosion = function(numberOfEmojis) {
     }
 }
 timerApp.fountain = function(numberOfEmojis) {
-    let prep = timerApp.prepareAnimation(numberOfEmojis, [-100, 20], [-100, 200], [10, 100]);
+    let prep = timerApp.prepareAnimation(numberOfEmojis, [-100, 20], [-100, 200], [10, 100], 0.8);
     prep[0].css('top', '100%');
     timerApp.animate.apply(null, prep);
     numberOfEmojis--;
@@ -182,8 +219,7 @@ timerApp.fountain = function(numberOfEmojis) {
         setTimeout( () => timerApp.fountain(numberOfEmojis), 20);
     }
 }
-
-timerApp.prepareAnimation = function(numberOfEmojis, topValues, leftValues, fontSizes) {
+timerApp.prepareAnimation = function(numberOfEmojis, topValues, leftValues, fontSizes, opacity) {
     let emoji = timerApp.emojis[timerApp.randomNumberGenerator(0, timerApp.emojis.length)];
     let positionTop = timerApp.randomNumberGenerator.apply(null, topValues);
     let positionLeft = timerApp.randomNumberGenerator.apply(null, leftValues);
@@ -191,13 +227,13 @@ timerApp.prepareAnimation = function(numberOfEmojis, topValues, leftValues, font
     let animationDuration = timerApp.randomNumberGenerator(1000, 2000);
     timerApp.animationCanvas.append(`<div class="emojiContainer number${numberOfEmojis}">&#${emoji}</div>`);
     emoji = $(`.number${numberOfEmojis}`);
-    return [emoji, positionTop, positionLeft, fontSize, animationDuration];
+    return [emoji, positionTop, positionLeft, opacity, fontSize, animationDuration];
 }
-timerApp.animate = function(emoji, positionTop, positionLeft, fontSize, animationDuration) {
+timerApp.animate = function(emoji, positionTop, positionLeft, opacity, fontSize, animationDuration) {
     emoji.animate({
         'left': `${positionLeft}vw`,
         'top': `${positionTop}vh`,
-        'opacity': '0.2',
+        'opacity': `${opacity}`,
         'font-size': `${fontSize}px`
     }, {
         'duration': animationDuration,
@@ -223,17 +259,27 @@ timerApp.init = function() {
             timerApp.startSequence();
         }
     });
-    if (timerApp.randomNumberGenerator(1, 3) === 1) {
-        timerApp.explosion(50);
-    } else {
-        timerApp.fountain(100);
-    }
-    // timerApp.playCatherineWheel(500, 2 * Math.PI / 500);
+    timerApp.stopAnimation(timerApp.animationCanvas);
+    // timerApp.test.playCatherineWheel(1000, 0);
 }
 
 $(document).ready(function() {
     timerApp.init()
 })
+
+
+
+timerApp.today = new Date();
+timerApp.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+timerApp.daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+timerApp.daysInWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+timerApp.isLeapYear = (timerApp.today.getFullYear() % 4 === 0);
+timerApp.addDayInLeapYear = function(isLeapYear) {
+    if (isLeapYear) { return 29; }
+}
+console.log(365.25%365)
+
+
 
 // Work in progress
 // I am trying to replace the nested if statements in the countdownMain function with recursion
@@ -279,7 +325,8 @@ timerApp.test.updateTime = function(index, timeValues) {
     return timeValues;
 }
 timerApp.test.playCatherineWheel = function(numberOfEmojis, angle) {
-    let prep = timerApp.prepareAnimation(numberOfEmojis, [50, 100], [-10, 80], [30, 31]);
+    timerApp.animationCanvas.removeClass('hidden');
+    let prep = timerApp.prepareAnimation(numberOfEmojis, [50, 100], [-10, 80], [30, 31], 0.5);
     angle += 2 * Math.PI / 50;
     prep[0].css({
         'top': `+=${70*Math.sin(angle)}px`,
@@ -288,6 +335,6 @@ timerApp.test.playCatherineWheel = function(numberOfEmojis, angle) {
     timerApp.animate.apply(null, prep);
     numberOfEmojis--;
     if (numberOfEmojis > 0) {
-        setTimeout( () => timerApp.playCatherineWheel(numberOfEmojis, angle), 150);
+        setTimeout( () => timerApp.test.playCatherineWheel(numberOfEmojis, angle), 10);
     }
 }

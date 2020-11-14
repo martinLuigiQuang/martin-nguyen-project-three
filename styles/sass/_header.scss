@@ -4,6 +4,10 @@ header {
     flex-flow: row nowrap;
     justify-content: space-between;
     a {
-        transform: translateY(15px);
+        text-decoration: none;
+    }
+    .fa-cogs {
+        margin-top: 25px;
+        color: #EF767A;
     }
 }

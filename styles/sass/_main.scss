@@ -3,50 +3,82 @@ main {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    justify-content: flex-start;
-    padding-top: 5vh;
+    justify-content: space-evenly;
 }
 
 form {
     display: grid;
     justify-content: center;
-    grid-template-columns: 50vw auto;
-    gap: 25px;
-    font-size: 20px;
+    grid-template-columns: 50vw calc(50vw - 60px);
+    column-gap: 10px;
+    row-gap: 25px;
+    input {
+        border: none;
+        border-bottom: 2px solid;
+    }
+}
+
+.calendar {
+    width: 70px;
+    height: 70px;
+    border: 5px solid #EF767A;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 30px 30px;
+    align-content: space-evenly;
+    justify-content: center;
+    h3 { text-align: center; }
+    div {
+        justify-self: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+        background-color: #EF767A;
+    }
 }
 
 .display {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
+    text-align: center;
     width: calc(100vw - 50px);
-    .year {
-        height: 80px;
-        width: 100%;
-    }
-    span {
-        flex: 0 0 25vw;
-        text-align: center;
-        font-size: 700%;
-    }
+    display: grid;
+    grid-template-columns: repeat(8, calc((100vw - 50px)/8));
+    grid-template-areas: 
+    'year1 year2 year3     yearColon day1    day2        day3     dayColon'
+    'hour1 hour2 hourColon minute1   minute2 minuteColon second1  second2';
+    #year1 { grid-area: year1; }
+    #year2 { grid-area: year2; }
+    #year3 { grid-area: year3; }
+    #yearColon { grid-area: yearColon; }
+    #day1 { grid-area: day1; }
+    #day2 { grid-area: day2; }
+    #day3 { grid-area: day3; }
+    #dayColon {grid-area: dayColon; }
+    #hour1 { grid-area: hour1; }
+    #hour2 { grid-area: hour2; }
+    #hourColon { grid-area: hourColon; }
+    #minute1 { grid-area: minute1; }
+    #minute2 { grid-area: minute2; }
+    #minuteColon { grid-area: minuteColon; }
+    #second1 { grid-area: second1; }
+    #second2 { grid-area: second2; }
 }
-
-
 
 .button {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25vw;
-    height: 25vw;
+    width: 120px;
+    height: 120px;
     background-color: rgb(44, 172, 12);
     border-radius: 50%;
-    position: absolute;
-    bottom: 30vw;
     h3 {
         text-transform: uppercase;
         color: whitesmoke;
     }
+}
+
+.cancel {
+    background-color: crimson;
 }
 
 .hidden {
