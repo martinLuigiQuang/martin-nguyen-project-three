@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <!-- Font awesome -->
+    <script src="https://kit.fontawesome.com/6ef8eb0028.js" crossorigin="anonymous"></script>
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@400;700&family=Goldman:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <h1>my timer</h1>
+        <i class="fas fa-cogs"></i>
+    </header>
+    <main>
+        <form>
+            <input type="number" max="99999999" name="years" id="years">
+            <label for="years">years</label>
+
+            <input type="number" max="99999999" name="days" id="days">
+            <label for="days">days</label>
+
+            <input type="number" max="99999999" name="hours" id="hours">
+            <label for="hours">hours</label>
+
+            <input type="number" max="99999999" name="minutes" id="minutes">
+            <label for="minutes">minutes</label>
+
+            <input type="number" max="99999999" name="seconds" id="seconds">
+            <label for="seconds">seconds</label>
+        </form>
+        <div class="calendar hidden">
+            <div class="instruction">
+                <h3>Select a future date to set event countdown</h3>
+            </div> <!-- closing instruction -->
+            <div class="calendarNav">
+                <i class="fas fa-chevron-left"></i>
+                <h3></h3>
+                <i class="fas fa-chevron-right"></i>
+            </div> <!-- closing calendarNav -->
+            
+            
+            <div class="calendarDisplay">
+                <h3>Sun</h3>
+                <h3>Mon</h3>
+                <h3>Tue</h3>
+                <h3>Wed</h3>
+                <h3>Thu</h3>
+                <h3>Fri</h3>
+                <h3>Sat</h3>
+                <ul></ul>
+            </div> <!-- closing calendarDisplay -->
+        </div> <!-- closing calendar -->
+       
+        <p class="srOnly">Set future date for countdown</p>
+        <div class="calendarIcon">
+            <h3></h3>
+            <h3></h3>
+            <div></div>
+            <div></div>
+        </div> <!-- closing calendar -->
+
+        <div class="display hidden">
+            <div class="year"></div>
+            <div class="day"></div>
+        </div> <!-- closing display -->
+
+        <p class="srOnly">Start Button - press again to cancel</p>
+        <div class="button" id="button">
+            <h3>Start</h3>
+        </div> <!-- closing button -->
+        <div class="endingAnimations"></div>
+        </div> <!-- closing animations -->
+    </main>
+    <footer>
+        <p>Created at Juno College</p>
+    </footer>
+    
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="script/script.js"></script>
+</html>

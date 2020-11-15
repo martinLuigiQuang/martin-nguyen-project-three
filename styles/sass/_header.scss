@@ -1,0 +1,13 @@
+header {
+    padding: 0 25px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    a {
+        text-decoration: none;
+    }
+    .fa-cogs {
+        margin-top: 25px;
+        color: #EF767A;
+    }
+}

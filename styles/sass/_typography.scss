@@ -1,0 +1,58 @@
+* {
+    color: rgb(39,39,39);
+}
+
+*:before, *:after {
+    font-size: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+form {
+    font-family: 'Goldman', cursive;
+    font-size: 2rem;
+}
+
+.display {
+    span {
+        font-family: 'Big Shoulders Stencil Display', cursive;
+        font-size: 10rem;
+    }
+}
+
+.calendarDisplay {
+    font-size: 1.8rem;
+    h3 {
+        font-family: 'Big Shoulders Stencil Display', cursive;
+        font-weight: 700;
+    }
+    li {
+        font-family: 'Goldman', cursive;
+        font-weight: 400;
+    }
+}
+
+h1 {
+    font-family: 'Goldman', cursive;
+    font-size: 4.9rem;
+}
+
+h2 {
+    font-size: 4rem;
+}
+
+h3, input {
+    font-family: 'Goldman', cursive;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.fa-chevron-left:before,
+.fa-chevron-right:before {
+    font-size: 1.6rem;
+}
+
+footer {
+    font-family: 'Goldman', cursive;
+    font-size: 1.8rem;
+}

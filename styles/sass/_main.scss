@@ -1,0 +1,93 @@
+main {
+    flex: 1 0 0;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    overflow: hidden;
+}
+
+form {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 50vw 1fr;
+    column-gap: 10px;
+    row-gap: 25px;
+    input {
+        border: none;
+        border-bottom: 2px solid;
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+
+.calendarIcon {
+    width: 70px;
+    height: 70px;
+    border: 5px solid #EF767A;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 30px 30px;
+    align-content: space-evenly;
+    justify-content: center;
+    h3 { 
+        text-align: center; 
+    }
+    div {
+        justify-self: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+        background-color: #EF767A;
+    }
+    .displayText {
+        text-transform: uppercase;
+    }
+}
+
+.display {
+    text-align: center;
+    width: calc(100vw - 50px);
+    display: grid;
+    grid-template-columns: repeat(8, calc(100%/8));
+    grid-template-areas: 
+    'year1 year2 year3     yearColon day1    day2        day3     dayColon'
+    'hour1 hour2 hourColon minute1   minute2 minuteColon second1  second2';
+    #year1 { grid-area: year1; }
+    #year2 { grid-area: year2; }
+    #year3 { grid-area: year3; }
+    #yearColon { grid-area: yearColon; }
+    #day1 { grid-area: day1; }
+    #day2 { grid-area: day2; }
+    #day3 { grid-area: day3; }
+    #dayColon {grid-area: dayColon; }
+    #hour1 { grid-area: hour1; }
+    #hour2 { grid-area: hour2; }
+    #hourColon { grid-area: hourColon; }
+    #minute1 { grid-area: minute1; }
+    #minute2 { grid-area: minute2; }
+    #minuteColon { grid-area: minuteColon; }
+    #second1 { grid-area: second1; }
+    #second2 { grid-area: second2; }
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+    background-color: rgb(44, 172, 12);
+    border-radius: 50%;
+    h3 {
+        text-transform: uppercase;
+        color: whitesmoke;
+    }
+}
+
+.cancel {
+    background-color: crimson;
+}
+
+.hidden {
+    display: none;
+}
