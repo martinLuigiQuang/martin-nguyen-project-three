@@ -321,7 +321,7 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
   height: 100vh;
-  overflow: hidden;
+  min-height: 280px;
 }
 
 header {
@@ -521,14 +521,14 @@ form input {
 }
 
 .calendarIcon {
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 100px;
   border: 5px solid #EF767A;
   border-radius: 5px;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 30px 30px;
-      grid-template-columns: 30px 30px;
+  -ms-grid-columns: 40px 40px;
+      grid-template-columns: 40px 40px;
   -ms-flex-line-pack: space-evenly;
       align-content: space-evenly;
   -webkit-box-pack: center;
@@ -539,13 +539,14 @@ form input {
 .calendarIcon h3 {
   text-align: center;
   color: #272727;
+  font-size: 2.5rem;
 }
 
 .calendarIcon div {
   -ms-grid-column-align: center;
       justify-self: center;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 2px;
   background-color: #EF767A;
 }
@@ -700,7 +701,135 @@ footer p {
   text-align: center;
 }
 
-@media (max-height: 568px) {
+@media (min-width: 768px) and (min-height: 450px) {
+  h3, label, input {
+    font-size: 3rem;
+  }
+  body {
+    min-height: 700px;
+  }
+  header {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    height: 100px;
+  }
+  header h1 {
+    font-size: 7rem;
+  }
+  header .fa-cogs:before {
+    font-size: 5.5rem;
+  }
+  main {
+    display: -ms-grid;
+    display: grid;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -ms-flex-line-pack: space-evenly;
+        align-content: space-evenly;
+        grid-template-areas: 'form form' 'calendarIcon button';
+  }
+  form {
+    -webkit-column-gap: 25px;
+            column-gap: 25px;
+  }
+  .display {
+    width: 542px;
+  }
+  form,
+  .display {
+    height: 300px;
+    width: 642px;
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: form;
+  }
+  .calendarIcon {
+    margin: 0 auto;
+    -ms-grid-row: 2;
+    -ms-grid-column: 1;
+    grid-area: calendarIcon;
+    width: 180px;
+    height: 180px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+  }
+  .calendarIcon h3:nth-child(1) {
+    display: inline;
+  }
+  .calendarIcon h3:nth-child(3) {
+    display: none;
+  }
+  .calendarIcon h3:nth-child(2) {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 0px;
+            flex: 1 0 0;
+    background-color: #EF767A;
+    font-size: 10rem;
+    color: whitesmoke;
+  }
+  .calendarIcon div {
+    display: none;
+  }
+  .button {
+    margin: 0 auto;
+    -ms-grid-row: 2;
+    -ms-grid-column: 2;
+    grid-area: button;
+    width: 200px;
+    height: 200px;
+  }
+  footer {
+    font-size: 3rem;
+  }
+  .calendar {
+    top: 10vh;
+    left: 25vw;
+  }
+  .calendar,
+  .instruction,
+  .calendarNav {
+    width: 50vw;
+  }
+  .calendarDisplay {
+    width: 50vw;
+  }
+  .calendarDisplay ul {
+    width: calc(50vw - 20px);
+  }
+  .calendarDisplay h3 {
+    font-weight: 400;
+  }
+  .calendarDisplay ul li {
+    -ms-grid-columns: (15px)[2];
+        grid-template-columns: repeat(2, 15px);
+  }
+  .calendarDisplay ul li span {
+    font-size: 2rem;
+    color: whitesmoke;
+  }
+}
+
+@media (max-height: 567px) {
   main {
     display: -ms-grid;
     display: grid;
@@ -750,11 +879,19 @@ footer p {
 }
 
 @media (max-height: 450px) {
-  h3, label {
-    font-size: 16px;
+  h3, label, input {
+    font-size: 20px;
+  }
+  header {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
   }
   header .fa-cogs {
     margin-top: 15px;
+  }
+  header .fa-cogs:before {
+    font-size: 4rem;
   }
   main {
     -webkit-box-pack: space-evenly;
@@ -772,130 +909,54 @@ footer p {
         grid-template-columns: 15vw 1fr 15vw 1fr;
   }
   .button {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
   }
   .calendar {
     top: calc((100vh - 275px) / 2);
+    display: -ms-grid;
+    display: grid;
+        grid-template-areas: 'instruction nav' 'instruction calendar';
+    left: 25px;
   }
   .instruction {
+    -ms-grid-row: 1;
+    -ms-grid-row-span: 2;
+    -ms-grid-column: 1;
+    grid-area: instruction;
+    position: relative;
+    height: 282px;
+    width: 100px;
+  }
+  .instruction h3 {
     position: absolute;
-    top: 107px;
-    left: -170px;
+    top: 41%;
+    left: -100%;
+    width: 282px;
     -webkit-transform: rotate(270deg);
             transform: rotate(270deg);
-    width: 270px;
+  }
+  .calendarNav {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
+    grid-area: nav;
+  }
+  .calendarDisplay {
+    -ms-grid-row: 2;
+    -ms-grid-column: 2;
+    grid-area: calendar;
   }
   .display span {
     font-size: 80px;
   }
-}
-
-@media (min-width: 768px) {
-  h3, label, input {
-    font-size: 3rem;
-  }
-  header {
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    height: 100px;
-  }
-  header h1 {
-    font-size: 7rem;
-  }
-  header .fa-cogs:before {
-    font-size: 5.5rem;
-  }
-  main {
-    display: -ms-grid;
-    display: grid;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -ms-flex-line-pack: space-evenly;
-        align-content: space-evenly;
-        grid-template-areas: 'form form' 'calendarIcon button';
-  }
-  form {
-    -webkit-column-gap: 25px;
-            column-gap: 25px;
-  }
-  .display {
-    width: 542px;
-  }
-  form,
-  .display {
-    height: 300px;
-    -ms-grid-row: 1;
-    -ms-grid-column: 1;
-    -ms-grid-column-span: 2;
-    grid-area: form;
-  }
-  .calendarIcon {
-    margin: 0 auto;
-    -ms-grid-row: 2;
-    -ms-grid-column: 1;
-    grid-area: calendarIcon;
-    width: 180px;
-    height: 180px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-        -ms-flex-flow: column-reverse nowrap;
-            flex-flow: column-reverse nowrap;
-  }
-  .calendarIcon h3:nth-child(1) {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-flex: 1;
-        -ms-flex: 1 0 0px;
-            flex: 1 0 0;
-    background-color: #EF767A;
-    font-size: 10rem;
-    color: whitesmoke;
-  }
-  .calendarIcon div {
+  .hidden {
     display: none;
   }
-  .button {
-    margin: 0 auto;
-    -ms-grid-row: 2;
-    -ms-grid-column: 2;
-    grid-area: button;
-    width: 200px;
-    height: 200px;
-  }
-  footer {
-    font-size: 3rem;
-  }
-  .calendar,
-  .instruction,
-  .calendarNav {
-    width: 50vw;
-  }
-  .calendarDisplay {
-    width: 50vw;
-  }
-  .calendarDisplay ul {
-    width: calc(50vw - 20px);
-  }
-  .calendarDisplay h3 {
-    font-family: 'Goldman', cursive;
-  }
-  .calendarDisplay ul li span {
-    color: whitesmoke;
+}
+
+@media (max-height: 300px) {
+  .calendarIcon {
+    height: 85px;
+    width: 85px;
   }
 }
