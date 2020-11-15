@@ -1,0 +1,67 @@
+@media (min-width: 768px) {
+    h3, label, input {
+        font-size: 3rem;
+    }
+    header {
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        h1 {
+            font-size: 7rem;
+        }
+        .fa-cogs:before {
+            font-size: 5.5rem;
+        }
+    }
+    main {
+        display: grid;
+        justify-content: center;
+        align-content: space-evenly;
+        grid-template-areas:
+        'form form'
+        'calendarIcon button';
+    }
+    form {
+        column-gap: 25px;
+    }
+    .display {
+        width: 542px;
+    }
+    form, 
+    .display {
+        height: 300px;
+        grid-area: form;
+    }
+    .calendarIcon {
+        margin: 0 auto;
+        grid-area: calendarIcon;
+        width: 180px;
+        height: 180px;
+        display: flex;
+        flex-flow: column-reverse nowrap;
+        h3:nth-child(1) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1 0 0;
+            background-color: #EF767A;
+            font-size: 10rem;
+            color: whitesmoke;
+        }
+        div {
+            display: none;
+        }
+    }
+    .button {
+        margin: 0 auto;
+        grid-area: button;
+        width: 200px;
+        height: 200px;
+    }
+    footer {
+        font-size: 3rem;
+    }
+    .calendar {
+        font-family: 'Goldman', cursive;
+    }
+}

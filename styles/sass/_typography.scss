@@ -1,5 +1,9 @@
-*:before {
-    font-size: 2rem;
+* {
+    color: rgb(39,39,39);
+}
+
+*:before, *:after {
+    font-size: 3rem;
     font-weight: 700;
     text-transform: uppercase;
 }
@@ -31,14 +35,13 @@ form {
 h1 {
     font-family: 'Goldman', cursive;
     font-size: 4.9rem;
-    color: rgb(39,39,39);
 }
 
 h2 {
     font-size: 4rem;
 }
 
-h3 {
+h3, input {
     font-family: 'Goldman', cursive;
     font-size: 2rem;
     font-weight: 700;
@@ -47,11 +50,6 @@ h3 {
 .fa-chevron-left:before,
 .fa-chevron-right:before {
     font-size: 1.6rem;
-}
-
-*:before, *:after {
-    font-weight: 700;
-    font-size: 3rem;
 }
 
 footer {

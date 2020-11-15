@@ -10,7 +10,7 @@ main {
 form {
     display: grid;
     justify-content: center;
-    grid-template-columns: 50vw calc(50vw - 60px);
+    grid-template-columns: 50vw 1fr;
     column-gap: 10px;
     row-gap: 25px;
     input {
@@ -39,13 +39,16 @@ form {
         border-radius: 2px;
         background-color: #EF767A;
     }
+    .displayText {
+        text-transform: uppercase;
+    }
 }
 
 .display {
     text-align: center;
     width: calc(100vw - 50px);
     display: grid;
-    grid-template-columns: repeat(8, calc((100vw - 50px)/8));
+    grid-template-columns: repeat(8, calc(100%/8));
     grid-template-areas: 
     'year1 year2 year3     yearColon day1    day2        day3     dayColon'
     'hour1 hour2 hourColon minute1   minute2 minuteColon second1  second2';
