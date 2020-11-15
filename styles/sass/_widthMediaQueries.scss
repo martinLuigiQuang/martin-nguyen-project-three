@@ -61,7 +61,23 @@
     footer {
         font-size: 3rem;
     }
-    .calendar {
-        font-family: 'Goldman', cursive;
+    .calendar, 
+    .instruction,
+    .calendarNav{
+        width: 50vw;
+    }
+    .calendarDisplay {
+        width: 50vw;
+        ul {
+            width: calc(50vw - 20px);
+        }
+    }
+    .calendarDisplay {
+        h3 {
+            font-family: 'Goldman', cursive;
+        }
+        ul li span {
+            color: whitesmoke;
+        }
     }
 }

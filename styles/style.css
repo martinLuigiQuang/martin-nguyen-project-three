@@ -253,10 +253,6 @@ h1, h2, h3, a, p {
   overflow: hidden;
 }
 
-* {
-  color: #272727;
-}
-
 *:before, *:after {
   font-size: 3rem;
   font-weight: 700;
@@ -290,6 +286,7 @@ form {
 h1 {
   font-family: 'Goldman', cursive;
   font-size: 4.9rem;
+  color: #272727;
 }
 
 h2 {
@@ -513,9 +510,11 @@ form {
   -webkit-column-gap: 10px;
           column-gap: 10px;
   row-gap: 25px;
+  color: #272727;
 }
 
 form input {
+  color: #272727;
   border: none;
   border-bottom: 2px solid;
   background-color: rgba(255, 255, 255, 0);
@@ -539,6 +538,7 @@ form input {
 
 .calendarIcon h3 {
   text-align: center;
+  color: #272727;
 }
 
 .calendarIcon div {
@@ -561,7 +561,7 @@ form input {
   display: grid;
   -ms-grid-columns: (calc(100%/8))[8];
       grid-template-columns: repeat(8, calc(100%/8));
-      grid-template-areas: 'year1 year2 year3     yearColon day1    day2        day3     dayColon' 'hour1 hour2 hourColon minute1   minute2 minuteColon second1  second2';
+      grid-template-areas: 'year1 year2 year3     yearColon day1    day2        day3     dayColon' 'hour1 hour2 hourColon minute1   minute2 minuteColon second1  second2';
 }
 
 .display #year1 {
@@ -709,7 +709,7 @@ footer p {
             justify-content: center;
     -ms-flex-line-pack: distribute;
         align-content: space-around;
-        grid-template-areas: 'form form' 'calendarIcon button';
+        grid-template-areas: 'form form' 'calendarIcon button';
   }
   form,
   .display {
@@ -764,7 +764,7 @@ footer p {
         align-content: space-evenly;
     -ms-grid-rows: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
-        grid-template-areas: 'form calendarIcon' 'form button';
+        grid-template-areas: 'form calendarIcon' 'form button';
   }
   form {
     width: 70vw;
@@ -818,7 +818,7 @@ footer p {
             justify-content: center;
     -ms-flex-line-pack: space-evenly;
         align-content: space-evenly;
-        grid-template-areas: 'form form' 'calendarIcon button';
+        grid-template-areas: 'form form' 'calendarIcon button';
   }
   form {
     -webkit-column-gap: 25px;
@@ -881,7 +881,21 @@ footer p {
   footer {
     font-size: 3rem;
   }
-  .calendar {
+  .calendar,
+  .instruction,
+  .calendarNav {
+    width: 50vw;
+  }
+  .calendarDisplay {
+    width: 50vw;
+  }
+  .calendarDisplay ul {
+    width: calc(50vw - 20px);
+  }
+  .calendarDisplay h3 {
     font-family: 'Goldman', cursive;
+  }
+  .calendarDisplay ul li span {
+    color: whitesmoke;
   }
 }

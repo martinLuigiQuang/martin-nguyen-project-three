@@ -13,7 +13,9 @@ form {
     grid-template-columns: 50vw 1fr;
     column-gap: 10px;
     row-gap: 25px;
+    color: rgb(39,39,39);
     input {
+        color: rgb(39,39,39);
         border: none;
         border-bottom: 2px solid;
         background-color: rgba(255, 255, 255, 0);
@@ -31,6 +33,7 @@ form {
     justify-content: center;
     h3 { 
         text-align: center; 
+        color: rgb(39,39,39);
     }
     div {
         justify-self: center;
