@@ -269,6 +269,20 @@ form {
   font-size: 10rem;
 }
 
+.calendarDisplay {
+  font-size: 1.8rem;
+}
+
+.calendarDisplay h3 {
+  font-family: 'Big Shoulders Stencil Display', cursive;
+  font-weight: 700;
+}
+
+.calendarDisplay li {
+  font-family: 'Goldman', cursive;
+  font-weight: 400;
+}
+
 h1 {
   font-family: 'Goldman', cursive;
   font-size: 4.9rem;
@@ -285,12 +299,14 @@ h3 {
   font-weight: 700;
 }
 
-.fa-cogs:before {
-  font-size: 3rem;
+.fa-chevron-left:before,
+.fa-chevron-right:before {
+  font-size: 1.6rem;
 }
 
-.fa-calendar-alt:before {
-  font-size: 5rem;
+*:before, *:after {
+  font-weight: 700;
+  font-size: 3rem;
 }
 
 footer {
@@ -310,6 +326,7 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
   height: 100vh;
+  min-height: 568px;
   overflow: hidden;
 }
 
@@ -336,6 +353,136 @@ header .fa-cogs {
   color: #EF767A;
 }
 
+.endingAnimations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.emojiContainer {
+  position: absolute;
+  font-size: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.calendar {
+  width: calc(100vw - 30px);
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  top: 25px;
+  left: 15px;
+  z-index: 1;
+}
+
+.calendar a {
+  color: whitesmoke;
+}
+
+.instruction {
+  background-color: #2cac0c;
+  padding: 10px 0;
+  border-radius: 5px;
+}
+
+.instruction h3 {
+  text-align: center;
+  color: #272727;
+}
+
+.calendarNav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  top: 0;
+  width: calc(100vw - 30px);
+  text-align: center;
+  padding: 10px;
+  margin: 2px;
+  border-radius: 5px;
+  color: whitesmoke;
+  background-color: #2c2c2c;
+}
+
+.calendarNav h3 {
+  background-color: #2c2c2c;
+}
+
+.calendarDisplay {
+  width: calc(100vw - 30px);
+  padding: 10px;
+  border-radius: 5px;
+  margin: 2px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (calc((100vw - 50px)/7))[7];
+      grid-template-columns: repeat(7, calc((100vw - 50px)/7));
+  background-color: #3a3a3a;
+}
+
+.calendarDisplay h3 {
+  text-align: center;
+  padding-bottom: 10px;
+  background-color: #3a3a3a;
+  color: whitesmoke;
+}
+
+.calendarDisplay ul {
+  margin: 0;
+  padding: 0;
+  width: calc(100vw - 50px);
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (calc((100vw - 50px)/7))[7];
+      grid-template-columns: repeat(7, calc((100vw - 50px)/7));
+  -ms-grid-rows: (30px)[6];
+      grid-template-rows: repeat(6, 30px);
+  text-align: center;
+}
+
+.calendarDisplay ul li {
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (calc((100vw - 50px)/18))[2];
+      grid-template-columns: repeat(2, calc((100vw - 50px)/18));
+  color: whitesmoke;
+}
+
+.calendarDisplay ul li:nth-child(n) {
+  border: 1px solid #3a3a3a;
+}
+
 main {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 0px;
@@ -353,6 +500,7 @@ main {
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
+  overflow: hidden;
 }
 
 form {
@@ -371,9 +519,10 @@ form {
 form input {
   border: none;
   border-bottom: 2px solid;
+  background-color: rgba(255, 255, 255, 0);
 }
 
-.calendar {
+.calendarIcon {
   width: 70px;
   height: 70px;
   border: 5px solid #EF767A;
@@ -389,11 +538,11 @@ form input {
           justify-content: center;
 }
 
-.calendar h3 {
+.calendarIcon h3 {
   text-align: center;
 }
 
-.calendar div {
+.calendarIcon div {
   -ms-grid-column-align: center;
       justify-self: center;
   width: 20px;
@@ -537,31 +686,6 @@ form input {
   display: none;
 }
 
-.endingAnimations {
-  position: absolute;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-}
-
-.endingAnimations .emojiContainer {
-  position: absolute;
-  font-size: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: 50px;
-  height: 50px;
-  top: calc(50%);
-  left: calc(50% - 50px);
-}
-
 footer {
   position: relative;
   padding: 10px;
@@ -569,6 +693,6 @@ footer {
 }
 
 footer p {
-  color: #e7e7e7;
+  color: whitesmoke;
   text-align: center;
 }

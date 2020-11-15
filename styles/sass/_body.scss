@@ -3,5 +3,6 @@ body {
     flex-flow: column nowrap;
     justify-content: space-between;
     height: 100vh;
+    min-height: 568px;
     overflow: hidden;
 }

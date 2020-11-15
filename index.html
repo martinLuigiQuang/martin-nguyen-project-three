@@ -33,27 +33,53 @@
             <input type="number" max="99999999" name="seconds" id="seconds">
             <label for="seconds">seconds</label>
         </form>
-        <label for="calendar" class="srOnly">Set future date for countdown</label>
-        <div class="calendar" id="calendar">
-            <h3>13</h3>
-            <h3>11</h3>
+        <div class="calendar hidden">
+            <div class="instruction">
+                <h3>Select a future  to set event countdown</h3>
+            </div> <!-- closing instruction -->
+            <div class="calendarNav">
+                <i class="fas fa-chevron-left"></i>
+                <h3></h3>
+                <i class="fas fa-chevron-right"></i>
+            </div> <!-- closing calendarNav -->
+            
+            
+            <div class="calendarDisplay">
+                <h3>S</h3>
+                <h3>M</h3>
+                <h3>T</h3>
+                <h3>W</h3>
+                <h3>T</h3>
+                <h3>F</h3>
+                <h3>S</h3>
+                <ul></ul>
+            </div> <!-- closing calendarDisplay -->
+        </div> <!-- closing calendar -->
+       
+        <p class="srOnly">Set future date for countdown</p>
+        <div class="calendarIcon">
+            <h3></h3>
+            <h3></h3>
             <div></div>
             <div></div>
-        </div>
+        </div> <!-- closing calendar -->
+
         <div class="display hidden">
             <div class="year"></div>
             <div class="day"></div>
         </div> <!-- closing display -->
-        <label for="button" class="srOnly">Start Button - press again to cancel</label>
+
+        <p class="srOnly">Start Button - press again to cancel</p>
         <div class="button" id="button">
             <h3>Start</h3>
         </div> <!-- closing button -->
+        <div class="endingAnimations"></div>
+        </div> <!-- closing animations -->
     </main>
     <footer>
         <p>Created at Juno College</p>
     </footer>
-    <div class="endingAnimations hidden">
-    </div> <!-- closing animations -->
+    
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="script/script.js"></script>

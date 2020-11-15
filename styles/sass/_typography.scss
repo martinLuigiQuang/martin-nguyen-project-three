@@ -16,10 +16,22 @@ form {
     }
 }
 
+.calendarDisplay {
+    font-size: 1.8rem;
+    h3 {
+        font-family: 'Big Shoulders Stencil Display', cursive;
+        font-weight: 700;
+    }
+    li {
+        font-family: 'Goldman', cursive;
+        font-weight: 400;
+    }
+}
+
 h1 {
     font-family: 'Goldman', cursive;
     font-size: 4.9rem;
-    color: $vintageBlack;
+    color: rgb(39,39,39);
 }
 
 h2 {
@@ -32,12 +44,14 @@ h3 {
     font-weight: 700;
 }
 
-.fa-cogs:before {
-    font-size: 3rem;
+.fa-chevron-left:before,
+.fa-chevron-right:before {
+    font-size: 1.6rem;
 }
 
-.fa-calendar-alt:before {
-    font-size: 5rem;
+*:before, *:after {
+    font-weight: 700;
+    font-size: 3rem;
 }
 
 footer {
