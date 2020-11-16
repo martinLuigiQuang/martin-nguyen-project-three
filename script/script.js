@@ -12,6 +12,7 @@ timerApp.buttonControl = function (button) {
     }
 }
 
+
 // TIMER MODULE
 timerApp.timer = {};
 timerApp.timer.form = $('form');
@@ -23,8 +24,8 @@ timerApp.timer.conversionFactors = [365 * 24 * 60 * 60, 24 * 60 *60, 60 * 60, 60
 timerApp.timer.timeValues = [];
 // myTimer variable and boolean value timerOn to switch on/off the countdown timer
 timerApp.timer.myTimer;
-timerApp.timer.On = true;
-// General purpose functions to get and reset user input fields
+timerApp.timer.Off = true;
+// Functions to get and reset user input fields
 timerApp.timer.getInputValues = function(userInputs) {
     return userInputs.map( (input) => {
         if (input.val() < 0) {
@@ -44,21 +45,19 @@ timerApp.timer.resetInputValues = function(form, userInputs) {
 timerApp.timer.convertUnits = function(inputValues) {
     let totalTimeInSeconds
     let convertedValues;
+    // to handle inputs from form
     if (inputValues.length > 1) {
         totalTimeInSeconds = timerApp.timer.findTotalTimeInSeconds(inputValues) + 1;
-        if (totalTimeInSeconds <= 0) {
-            convertedValues = [0, 0, 0, 0, 0];
-        } else {
-            convertedValues = inputValues.map( (value, index) => {
-                // each time value starting from number of years is calculated by finding the quotient of the total time in seconds divided by the corresponding conversion factor
-                // Math formula: ( numerator (i.e. total) - remainder ) / divisor (i.e. conversion factor) = quotient (i.e required value)
-                value = timerApp.timer.conversionCalculator(totalTimeInSeconds, timerApp.timer.conversionFactors[index]);
-                // the value of the next largest time unit is calculated by finding the remaining total time in seconds. Then apply the same conversion calculation as above to the reduced total time in seconds.
-                totalTimeInSeconds -= value * timerApp.timer.conversionFactors[index];
-                // return each converted value to the convertedValues array
-                return value;
-            });
-        }
+        convertedValues = inputValues.map( (value, index) => {
+            // each time value starting from number of years is calculated by finding the quotient of the total time in seconds divided by the corresponding conversion factor
+            // Math formula: ( numerator (i.e. total) - remainder ) / divisor (i.e. conversion factor) = quotient (i.e required value)
+            value = timerApp.timer.conversionCalculator(totalTimeInSeconds, timerApp.timer.conversionFactors[index]);
+            // the value of the next largest time unit is calculated by finding the remaining total time in seconds. Then apply the same conversion calculation as above to the reduced total time in seconds.
+            totalTimeInSeconds -= value * timerApp.timer.conversionFactors[index];
+            // return each converted value to the convertedValues array
+            return value;
+        });
+    // to handle inputs from calendar selection; future update to make calendar inputs conform to the array format
     } else {
         totalTimeInSeconds = inputValues;
         if (totalTimeInSeconds <= 0) {
@@ -133,7 +132,8 @@ timerApp.timer.countdownMain = function(years, days, hours, minutes, seconds) {
         // Recursive call to countdownMain function to continue counting down
         timerApp.timer.countdownMain(years, days, hours, minutes, seconds);
     } else {
-        timerApp.animation.start(timerApp.randomNumberGenerator(1,100), timerApp.animation.canvas);
+        timerApp.timer.displayTimeValues([0, 0, 0, 0, 0]);
+        timerApp.animation.start(timerApp.randomNumberGenerator(1,100));
     }
 }
 // helper function checkTime(timeValues) checks if any of the input time values is greater than zero
@@ -153,7 +153,6 @@ timerApp.timer.countdown = function(timeValue, maxValue) {
     // return the new timeValue
     return timeValue;
 }
-
 // Main function to display the time values on screen
 timerApp.timer.displayTimeValues = function(convertedValues) {
     let stringValues = convertedValues.map(timerApp.timer.toString);
@@ -191,23 +190,20 @@ timerApp.timer.start = function(timeValues) {
     timerApp.buttonControl(timerApp.timer.startButton);
     timerApp.timer.display.toggleClass('hidden');
     timerApp.timer.timeValues = timeValues;
-    timerApp.timer.resetInputValues(timerApp.timer.form, timerApp.timer.userInputs);
     timerApp.timer.displayTimeValues(timerApp.timer.timeValues);
-    if (timerApp.timer.On) {
+    timerApp.timer.resetInputValues(timerApp.timer.form, timerApp.timer.userInputs);
+    if (timerApp.timer.Off) {
         timerApp.timer.startTimer(timerApp.timer.timeValues);
     } else {
         clearTimeout(timerApp.timer.myTimer);
     }
-    timerApp.timer.On = !timerApp.timer.On;
+    timerApp.timer.Off = !timerApp.timer.Off;
 }
 
 timerApp.timer.init = function() {
     timerApp.timer.startButton.on('click', () => {
         let input = timerApp.timer.convertUnits(timerApp.timer.getInputValues(timerApp.timer.userInputs));
         timerApp.timer.start(input);
-        if (timerApp.timer.On) {
-            clearTimeout(timerApp.calendar.endingTimeout);
-        }
     });
     timerApp.timer.form.on('keyup', (event) => {
         if (event.keyCode === 13) {
@@ -238,12 +234,10 @@ timerApp.calendar.calendarIconDisplay = function(calendar, today) {
     $(calendar[0].children[2]).text(today.getMonth() + 1);
     // Function to handle clicks on the calendar icon; once clicked the calendar will be shown and user can select future dates from it; if clicked again, will close the display
     timerApp.calendar.calendarIcon.on('click', () => {
-        if (timerApp.timer.On) {
-            timerApp.calendar.calendar.toggleClass('hidden');
-            timerApp.calendar.chosenDate = [timerApp.calendar.today.getFullYear(), timerApp.calendar.today.getMonth()];
-            timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav);
-            timerApp.calendar.show(timerApp.calendar.calendarDisplay);
-        }
+        timerApp.calendar.calendar.toggleClass('hidden');
+        timerApp.calendar.chosenDate = [timerApp.calendar.today.getFullYear(), timerApp.calendar.today.getMonth()];
+        timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav);
+        timerApp.calendar.show(timerApp.calendar.calendarDisplay);
     });
 }
 // Function to navigate calendar
@@ -280,7 +274,7 @@ timerApp.calendar.backward = function() {
     }
 }
 // Function to fill all days in a month; the month and year are specified in the calendar nav bar
-timerApp.calendar.show = function(calendarDisplay) {
+timerApp.calendar.show = function(calendarDisplay, highlightIndex) {
     // clear calendar display for the new month
     calendarDisplay.html('');
     // gather information about the new month
@@ -306,7 +300,6 @@ timerApp.calendar.show = function(calendarDisplay) {
             timerApp.calendar.fillDays(calendarDisplay, stringDate);
             day++;
         }
-        // emphasize the current date
         if (day === (timerApp.calendar.today.getDate() + 1) && 
             month === timerApp.calendar.today.getMonth() && 
             year === timerApp.calendar.today.getFullYear()) {
@@ -319,6 +312,7 @@ timerApp.calendar.show = function(calendarDisplay) {
         } else {
             $(calendarDisplay[0].children[i]).css('background-color', 'rgba(0, 0, 0, 0.3)'); 
         }
+
     }
 }
 // Helper function to put the day numbers as strings on the calendar display
@@ -330,19 +324,32 @@ timerApp.calendar.fillDays = function(calendarDisplay, stringDate) {
         </li>
     `);
 }
+// Function to search for a particular date; return the number of the 'li' child that holds the value of that date in the given year and month
+timerApp.calendar.searchDate = function(year, month, day) {
+    let weekdayOfFirstDay = new Date(year, month, 1).getDay();
+    return weekdayOfFirstDay + parseInt(day) - 1;
+}
 // Function to handle user selection from calendar and start event countdown from current moment to selected future date and time
-timerApp.calendar.start = function() {
+timerApp.calendar.getUserChosenDate = function() {
     timerApp.calendar.calendarDisplay.on('click', 'li', function () {
         timerApp.calendar.calendar.toggleClass('hidden');
         // Get user's chosen date and record it as new Date object
-        let chosenDay = timerApp.calendar.getUserChosenDate($(this));
+        let chosenDay = timerApp.calendar.parseUserChoice($(this));
         timerApp.calendar.userChosenDate = new Date(timerApp.calendar.chosenDate[0], timerApp.calendar.chosenDate[1], chosenDay);
-        // user timer.start() method to start the countdown timer
-        timerApp.timer.start(timerApp.timer.convertUnits((timerApp.calendar.userChosenDate - timerApp.calendar.today.getTime()) / 1000));
+        // user timer.start() method to start the countdown timer if the countdown display is off. otherwise, clear the old setTimeout and start a new timer without toggling the countdown display
+        if (timerApp.timer.Off) {
+            timerApp.timer.start(timerApp.timer.convertUnits((timerApp.calendar.userChosenDate - timerApp.calendar.today.getTime()) / 1000));
+        } else {
+            timerApp.timer.timeValues = timerApp.timer.convertUnits((timerApp.calendar.userChosenDate - timerApp.calendar.today.getTime()) / 1000);
+            console.log(timerApp.timer.timeValues)
+            clearTimeout(timerApp.timer.myTimer);
+            timerApp.timer.startTimer(timerApp.timer.timeValues);
+        }
+        
     });
 }
 // Function to get user's chosen date
-timerApp.calendar.getUserChosenDate = function(choice) {
+timerApp.calendar.parseUserChoice = function(choice) {
     let chosenDay = $(choice.find('span')[0]).text();
     chosenDay += $(choice.find('span')[1]).text();
     return chosenDay;
@@ -353,7 +360,7 @@ timerApp.calendar.init = function() {
     timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav);
     timerApp.calendar.show(timerApp.calendar.calendarDisplay);
     timerApp.calendar.changeMonth();
-    timerApp.calendar.start();
+    timerApp.calendar.getUserChosenDate();
 }
 
 
@@ -361,7 +368,6 @@ timerApp.calendar.init = function() {
 timerApp.animation = {}
 timerApp.animation.emojis = ['127809', '127810', '127809', '127810', '127811'];
 timerApp.animation.canvas = $('.endingAnimations');
-timerApp.animation.endingTimeout;
 // Function to start animation based on a random number input; outcome is one of the programmed animations
 timerApp.animation.start = function (randomNumber) {
     if (randomNumber > 50) {
@@ -370,11 +376,8 @@ timerApp.animation.start = function (randomNumber) {
         timerApp.animation.explosion(25);
         timerApp.animation.explosion(25);
         timerApp.animation.explosion(25);
-        // endingTimeout to reset the input form; to be replaced by an asynchronous function in future upates
-        timerApp.animation.endingTimeout = setTimeout(timerApp.timer.start, 750);
     } else {
         timerApp.animation.fountain(100);
-        timerApp.animation.endingTimeout = setTimeout(timerApp.timer.start, 2000);
     }
 }
 // Function that creats emphatic animations for the last 10 seconds of the countdown
@@ -463,9 +466,13 @@ timerApp.init = function() {
 
 $(document).ready(function() {
     timerApp.init()
+    
 })
 
-// Work in progress
+
+
+
+// WORK IN PROGRESS
 // I am trying to replace the nested if statements in the countdownMain function with recursion
 timerApp.test = {};
 timerApp.test.countdownMain = function(convertedValues) {

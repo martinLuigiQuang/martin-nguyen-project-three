@@ -479,6 +479,10 @@ header .fa-cogs {
   border: 1px solid #3a3a3a;
 }
 
+.calendarDisplay ul li .chosenDate {
+  color: #2cac0c;
+}
+
 main {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 0px;
