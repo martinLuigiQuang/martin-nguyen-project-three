@@ -188,6 +188,7 @@ timerApp.timer.show = function(display, timeUnit, value, index) {
 // Function to start counting down sequence
 timerApp.timer.start = function(timeValues) {
     timerApp.buttonControl(timerApp.timer.startButton);
+    timerApp.calendar.today = new Date();
     timerApp.settings.display.addClass('hidden');
     timerApp.timer.display.toggleClass('hidden');
     timerApp.calendar.calendar.addClass('hidden');
@@ -231,7 +232,7 @@ timerApp.calendar.minuteInput = $('#minuteInput');
 timerApp.calendar.meridiem = $('.meridiem');
 timerApp.calendar.submitButton = $('.submitButton');
 timerApp.calendar.calendarIcon = $('.calendarIcon');
-timerApp.calendar.today = new Date();
+timerApp.calendar.today;
 timerApp.calendar.chosenDate = [timerApp.calendar.today.getFullYear(), timerApp.calendar.today.getMonth(), null, null, null];
 timerApp.calendar.userChosenDate;
 timerApp.calendar.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
