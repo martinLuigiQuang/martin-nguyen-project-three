@@ -1,4 +1,4 @@
-@media (max-height: 568px) {
+@media (max-height: 567px) {
     main {
         display: grid;
         justify-content: center;
@@ -39,11 +39,17 @@
 }
 
 @media (max-height: 450px) {
-    h3, label {
-        font-size: 16px;
+    h3, label, input {
+        font-size: 20px;
     }
-    header .fa-cogs {
-        margin-top: 15px;
+    header {
+        justify-content: center;
+        .fa-cogs {
+            margin-top: 15px;
+        }
+        .fa-cogs:before {
+            font-size: 4rem;
+        }
     }
     main {
         justify-content: space-evenly;
@@ -58,20 +64,48 @@
         grid-template-columns: 15vw 1fr 15vw 1fr;
     }
     .button {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
     }
     .calendar {
         top: calc((100vh - 275px) / 2);
+        display: grid;
+        grid-template-areas:
+        'instruction nav'
+        'instruction calendar';
+        left: 25px;
     }
     .instruction {
-        position: absolute;
-        top: 107px;
-        left: -170px;
-        transform: rotate(270deg);
-        width: 270px;
+        grid-area: instruction;
+
+        position: relative;
+        h3 {
+            position: absolute;
+            top: 41%;
+            left: -100%;
+            width: 282px;
+            transform: rotate(270deg);
+        }
+        height: 282px;
+        width: 100px;
+    }
+    .calendarNav {
+        grid-area: nav;
+    }
+    .calendarDisplay {
+        grid-area: calendar;
     }
     .display span {
         font-size: 80px;
+    }
+    .hidden {
+        display: none;
+    }
+}
+
+@media (max-height: 300px) {
+    .calendarIcon {
+        height: 85px;
+        width: 85px;
     }
 }

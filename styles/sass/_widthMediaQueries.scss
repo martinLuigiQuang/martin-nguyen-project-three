@@ -1,6 +1,9 @@
-@media (min-width: 768px) {
+@media (min-width: 768px) and (min-height: 450px) {
     h3, label, input {
         font-size: 3rem;
+    }
+    body {
+        min-height: 700px;
     }
     header {
         justify-content: center;
@@ -30,6 +33,7 @@
     form, 
     .display {
         height: 300px;
+        width: 642px;
         grid-area: form;
     }
     .calendarIcon {
@@ -38,8 +42,14 @@
         width: 180px;
         height: 180px;
         display: flex;
-        flex-flow: column-reverse nowrap;
+        flex-flow: column nowrap;
         h3:nth-child(1) {
+            display: inline;
+        }
+        h3:nth-child(3) { 
+            display: none; 
+        }
+        h3:nth-child(2) {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -59,9 +69,33 @@
         height: 200px;
     }
     footer {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
     .calendar {
-        font-family: 'Goldman', cursive;
+        top: 10vh;
+        left: 25vw;
+    }
+    .calendar, 
+    .instruction,
+    .calendarNav{
+        width: 50vw;
+    }
+    .calendarDisplay {
+        width: 50vw;
+        ul {
+            width: calc(50vw - 20px);
+        }
+    }
+    .calendarDisplay {
+        h3 {
+            font-weight: 400;
+        }
+        ul li {
+            grid-template-columns: repeat(2, 15px);
+            span {
+                font-size: 2rem;
+                color: whitesmoke;
+            }
+        }
     }
 }
