@@ -31,6 +31,7 @@ form {
     grid-template-columns: 40px 40px;
     align-content: space-evenly;
     justify-content: center;
+    cursor: pointer;
     h3 { 
         text-align: center; 
         color: rgb(39,39,39);
@@ -82,6 +83,7 @@ form {
     height: 120px;
     background-color: rgb(44, 172, 12);
     border-radius: 50%;
+    cursor: pointer;
     h3 {
         text-transform: uppercase;
         color: whitesmoke;

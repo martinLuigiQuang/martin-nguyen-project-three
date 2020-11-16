@@ -253,8 +253,18 @@ h1, h2, h3, a, p {
   overflow: hidden;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 *:before, *:after {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -285,12 +295,14 @@ form {
 
 h1 {
   font-family: 'Goldman', cursive;
-  font-size: 4.9rem;
+  font-size: 6rem;
   color: #272727;
 }
 
 h2 {
+  font-family: 'Goldman', cursive;
   font-size: 4rem;
+  color: whitesmoke;
 }
 
 h3, input {
@@ -333,9 +345,9 @@ header {
   -webkit-box-direction: normal;
       -ms-flex-flow: row nowrap;
           flex-flow: row nowrap;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 header a {
@@ -343,8 +355,9 @@ header a {
 }
 
 header .fa-cogs {
-  margin-top: 25px;
+  margin-top: 20px;
   color: #EF767A;
+  cursor: pointer;
 }
 
 .endingAnimations {
@@ -399,6 +412,7 @@ header .fa-cogs {
   border-radius: 5px;
   width: calc(100vw - 30px);
   margin: 2px;
+  cursor: default;
 }
 
 .instruction h3 {
@@ -424,10 +438,18 @@ header .fa-cogs {
   border-radius: 5px;
   color: whitesmoke;
   background-color: #2c2c2c;
+  cursor: default;
 }
 
 .calendarNav h3 {
   background-color: #2c2c2c;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+}
+
+.calendarNav .fas {
+  cursor: pointer;
 }
 
 .calendarDisplay {
@@ -440,13 +462,13 @@ header .fa-cogs {
   -ms-grid-columns: (calc(100%/7))[7];
       grid-template-columns: repeat(7, calc(100%/7));
   background-color: #3a3a3a;
+  color: whitesmoke;
 }
 
 .calendarDisplay h3 {
   text-align: center;
   padding-bottom: 10px;
   background-color: #3a3a3a;
-  color: whitesmoke;
 }
 
 .calendarDisplay ul {
@@ -472,7 +494,7 @@ header .fa-cogs {
   display: grid;
   -ms-grid-columns: (12px)[2];
       grid-template-columns: repeat(2, 12px);
-  color: whitesmoke;
+  cursor: pointer;
 }
 
 .calendarDisplay ul li:nth-child(n) {
@@ -481,6 +503,71 @@ header .fa-cogs {
 
 .calendarDisplay ul li .chosenDate {
   color: #2cac0c;
+}
+
+.timeSelection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transform: translateY(-200px);
+          transform: translateY(-200px);
+}
+
+.timeSelection h3 {
+  display: block;
+  font-size: 4rem;
+  color: whitesmoke;
+  background-color: #3a3a3a;
+}
+
+.timeSelection .meridiem {
+  width: 80px;
+}
+
+#hourInput, #minuteInput {
+  font-size: 5rem;
+  text-align: center;
+  width: 90px;
+  height: 90px;
+}
+
+#minuteInput {
+  margin-right: 10px;
+}
+
+.submitButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  -webkit-transform: translateY(-170px);
+          transform: translateY(-170px);
+}
+
+.submitButton h3 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  color: grey;
+}
+
+.activated {
+  background-color: #EF767A;
+}
+
+.activated h3 {
+  color: whitesmoke;
 }
 
 main {
@@ -538,6 +625,7 @@ form input {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  cursor: pointer;
 }
 
 .calendarIcon h3 {
@@ -679,6 +767,7 @@ form input {
   height: 120px;
   background-color: #2cac0c;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .button h3 {
@@ -688,6 +777,88 @@ form input {
 
 .cancel {
   background-color: crimson;
+}
+
+.hidden {
+  display: none;
+}
+
+.settings {
+  width: 100vw;
+  max-width: 800px;
+  height: 100vh;
+  max-height: 400px;
+  background-color: #272727;
+  position: absolute;
+  top: calc(50% - 30vh);
+  color: whitesmoke;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.about {
+  border-bottom: 2px solid whitesmoke;
+}
+
+.options, .about {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.options h3, .about h3 {
+  text-align: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.checkbox {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  width: 50px;
+  height: 50px;
+  background-color: whitesmoke;
+  position: relative;
+  cursor: pointer;
+}
+
+.checkbox:before {
+  content: '';
+  background-color: whitesmoke;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  margin: 5px;
+}
+
+.checkbox.checked:before {
+  background-color: #EF767A;
 }
 
 .hidden {
@@ -920,7 +1091,7 @@ footer p {
     top: calc((100vh - 275px) / 2);
     display: -ms-grid;
     display: grid;
-        grid-template-areas: 'instruction nav' 'instruction calendar';
+        grid-template-areas: 'instruction nav' 'instruction calendar' 'time time' 'button button';
     left: 25px;
   }
   .instruction {
@@ -952,6 +1123,22 @@ footer p {
   }
   .display span {
     font-size: 80px;
+  }
+  .timeSelection {
+    -ms-grid-row: 3;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: time;
+    -webkit-transform: translate(110px, -200px);
+            transform: translate(110px, -200px);
+  }
+  .submitButton {
+    -ms-grid-row: 4;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: button;
+    -webkit-transform: translate(150px, -170px);
+            transform: translate(150px, -170px);
   }
   .hidden {
     display: none;

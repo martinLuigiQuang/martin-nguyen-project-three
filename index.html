@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timer</title>
+    <title>My Timer App</title>
     <!-- Font awesome -->
     <script src="https://kit.fontawesome.com/6ef8eb0028.js" crossorigin="anonymous"></script>
     <!-- Google fonts -->
@@ -14,25 +14,40 @@
 <body>
     <header>
         <h1>my timer</h1>
+        <p class="srOnly">Settings button - allow the user to turn on or off the ending animation</p>
         <i class="fas fa-cogs"></i>
+        <div class="settings hidden">
+            <div class="about">
+                <h2>About</h2>
+                <h3>A digital timer that allows the user to set up an event countdown</h3>
+            </div> <!-- closing about -->
+            <div class="options">
+                <h2>Animation</h2>
+                <h3>Check to enable animations</h3>
+                <div class="checkbox">
+                </div> <!-- closing checkbox -->
+            </div> <!-- closing options -->
+        </div> <!-- closing settings -->
     </header>
     <main>
         <form>
-            <input type="number" max="99999999" name="years" id="years">
-            <label for="years">years</label>
-
-            <input type="number" max="99999999" name="days" id="days">
-            <label for="days">days</label>
-
-            <input type="number" max="99999999" name="hours" id="hours">
-            <label for="hours">hours</label>
-
-            <input type="number" max="99999999" name="minutes" id="minutes">
-            <label for="minutes">minutes</label>
-
-            <input type="number" max="99999999" name="seconds" id="seconds">
-            <label for="seconds">seconds</label>
+            <input type="number" name="years" id="years">
+            <label for="years"><span class="srOnly">input</span>years</label>
+            
+            <input type="number" name="days" id="days">
+            <label for="days"><span class="srOnly">input</span>days</label>
+            
+            <input type="number" name="hours" id="hours">
+            <label for="hours"><span class="srOnly">input</span>hours</label>
+            
+            <input type="number" name="minutes" id="minutes">
+            <label for="minutes"><span class="srOnly">input</span>minutes</label>
+            
+            <input type="number" name="seconds" id="seconds">
+            <label for="seconds"><span class="srOnly">input</span>seconds</label>
+            
         </form>
+
         <div class="calendar hidden">
             <div class="instruction">
                 <h3>Select a future date to set event countdown</h3>
@@ -42,7 +57,6 @@
                 <h3></h3>
                 <i class="fas fa-chevron-right"></i>
             </div> <!-- closing calendarNav -->
-            
             
             <div class="calendarDisplay">
                 <h3>Sun</h3>
@@ -54,6 +68,18 @@
                 <h3>Sat</h3>
                 <ul></ul>
             </div> <!-- closing calendarDisplay -->
+
+            <div class="timeSelection hidden">
+                <label for="hourInput" class="srOnly">Choose event time - hours</label>
+                <input type="hourInput" min="0" step="1" name="hourInput" id="hourInput" placeholder="12">
+                <h3>:</h3>
+                <label for="minuteInput" class="srOnly">Choose event time - minutes</label>
+                <input type="minuteInput" min="0" step="1" name="minuteInput" id="minuteInput" placeholder="00">                
+                <h3 class="meridiem">AM</h3>
+            </div> <!-- closing timeSelection -->
+            <div class="submitButton hidden">
+                <h3>Submit</h3>
+            </div> <!-- closing submitButton -->
         </div> <!-- closing calendar -->
        
         <p class="srOnly">Set future date for countdown</p>

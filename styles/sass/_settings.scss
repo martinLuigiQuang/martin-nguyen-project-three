@@ -1,0 +1,56 @@
+.settings {
+    width: 100vw;
+    max-width: 800px;
+    height: 100vh;
+    max-height: 400px;
+    background-color: rgb(39,39,39);
+    position: absolute;
+    top: calc(50% - 30vh);
+    color: whitesmoke;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.about {
+    border-bottom: 2px solid whitesmoke;
+}
+
+.options, .about {
+    flex: 1 0 0;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    h3 {
+        text-align: center;
+        align-self: center;
+    }
+}
+
+.checkbox {
+    align-self: center;
+    width: 50px;
+    height: 50px;
+    background-color: whitesmoke;
+    position: relative;
+    cursor: pointer;
+    &:before {
+        content: '';
+        background-color: whitesmoke;
+        width:  40px;
+        height: 40px;
+        position: absolute;
+        margin: 5px;
+    }
+    &.checked {
+        &:before {
+            background-color: #EF767A; 
+        }
+    }
+}
+
+.hidden {
+    display: none;
+}

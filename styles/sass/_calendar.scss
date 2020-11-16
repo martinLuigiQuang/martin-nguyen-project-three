@@ -18,6 +18,7 @@
     border-radius: 5px;
     width: calc(100vw - 30px);
     margin: 2px;
+    cursor: default;
     h3 {
         text-align: center;
         color: rgb(39, 39, 39);
@@ -36,8 +37,13 @@
     border-radius: 5px;
     color: whitesmoke;
     background-color: rgb(44, 44, 44);
+    cursor: default;
     h3 {
         background-color: rgb(44, 44, 44);
+        flex: 1 0 0;
+    }
+    .fas {
+        cursor: pointer;
     }
 }
 
@@ -49,11 +55,12 @@
     display: grid;
     grid-template-columns: repeat(7, calc(100%/7));
     background-color: #3a3a3a;
+    color: whitesmoke;
     h3 {
         text-align: center;
         padding-bottom: 10px;
         background-color: #3a3a3a;
-        color: whitesmoke;
+        
     }
     ul {
         margin: 0;
@@ -68,7 +75,7 @@
             justify-content: center;
             display: grid;
             grid-template-columns: repeat(2, 12px);
-            color: whitesmoke;
+            cursor: pointer;
             &:nth-child(n) {
                 border: 1px solid #3a3a3a;
             }
@@ -76,5 +83,54 @@
                 color: rgb(44, 172, 12);
             }
         }
+    }
+}
+
+.timeSelection {
+    display: flex;
+    align-items: center;
+    transform: translateY(-200px);
+    h3 {
+        display: block;
+        font-size: 4rem;
+        color: whitesmoke;
+        background-color: #3a3a3a;
+    }
+    .meridiem {
+        width: 80px;
+    }
+}
+
+#hourInput, #minuteInput {
+    font-size: 5rem;
+    text-align: center;
+    width: 90px;
+    height: 90px;
+}
+
+#minuteInput {
+    margin-right: 10px;
+}
+
+.submitButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    transform: translateY(-170px);
+    h3 {
+        font-size: 3rem;
+        text-transform: uppercase;
+        color: grey;
+    } 
+}
+
+.activated {
+    background-color: #EF767A; 
+    h3 {
+        color: whitesmoke;
     }
 }

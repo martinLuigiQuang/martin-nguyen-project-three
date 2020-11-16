@@ -188,7 +188,11 @@ timerApp.timer.show = function(display, timeUnit, value, index) {
 // Function to start counting down sequence
 timerApp.timer.start = function(timeValues) {
     timerApp.buttonControl(timerApp.timer.startButton);
+    timerApp.settings.display.addClass('hidden');
     timerApp.timer.display.toggleClass('hidden');
+    timerApp.calendar.calendar.addClass('hidden');
+    timerApp.calendar.timeSelection.addClass('hidden');
+    timerApp.calendar.submitButton.addClass('hidden');
     timerApp.timer.timeValues = timeValues;
     timerApp.timer.displayTimeValues(timerApp.timer.timeValues);
     timerApp.timer.resetInputValues(timerApp.timer.form, timerApp.timer.userInputs);
@@ -221,9 +225,14 @@ timerApp.calendar.calendarNav = $('.calendarNav');
 timerApp.calendar.previousButton = $('.fa-chevron-left');
 timerApp.calendar.nextButton = $('.fa-chevron-right');
 timerApp.calendar.calendarDisplay = $('.calendarDisplay ul');
+timerApp.calendar.timeSelection = $('.timeSelection');
+timerApp.calendar.hourInput = $('#hourInput');
+timerApp.calendar.minuteInput = $('#minuteInput');
+timerApp.calendar.meridiem = $('.meridiem');
+timerApp.calendar.submitButton = $('.submitButton');
 timerApp.calendar.calendarIcon = $('.calendarIcon');
 timerApp.calendar.today = new Date();
-timerApp.calendar.chosenDate = [timerApp.calendar.today.getFullYear(), timerApp.calendar.today.getMonth()];
+timerApp.calendar.chosenDate = [timerApp.calendar.today.getFullYear(), timerApp.calendar.today.getMonth(), null, null, null];
 timerApp.calendar.userChosenDate;
 timerApp.calendar.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 // Function to display calendar icon
@@ -236,26 +245,28 @@ timerApp.calendar.calendarIconDisplay = function(calendar, today) {
     timerApp.calendar.calendarIcon.on('click', () => {
         timerApp.calendar.calendar.toggleClass('hidden');
         timerApp.calendar.chosenDate = [timerApp.calendar.today.getFullYear(), timerApp.calendar.today.getMonth()];
-        timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav);
+        timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav, ' ');
         timerApp.calendar.show(timerApp.calendar.calendarDisplay);
+        timerApp.calendar.timeSelection.addClass('hidden');
+        timerApp.calendar.submitButton.addClass('hidden');
     });
 }
 // Function to navigate calendar
 timerApp.calendar.changeMonth = function() {
     timerApp.calendar.previousButton.on('click', () => {
         timerApp.calendar.backward(); 
-        timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav);
+        timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav, ' ');
         timerApp.calendar.show(timerApp.calendar.calendarDisplay);
     });
     timerApp.calendar.nextButton.on('click', () => {
         timerApp.calendar.forward();
-        timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav);
+        timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav, ' ');
         timerApp.calendar.show(timerApp.calendar.calendarDisplay); 
     });
 }
 // Function to display month and year on calendar nav bar
-timerApp.calendar.calendarNavControl = function(calendarNav) {
-    $(calendarNav[0].children[1]).text(`${timerApp.calendar.months[timerApp.calendar.chosenDate[1]]} ${timerApp.calendar.chosenDate[0]}`);
+timerApp.calendar.calendarNavControl = function(calendarNav, insert) {
+    $(calendarNav[0].children[1]).text(`${timerApp.calendar.months[timerApp.calendar.chosenDate[1]]}${insert}${timerApp.calendar.chosenDate[0]}`);
 }
 // Helper function to increase month
 timerApp.calendar.forward = function() {
@@ -274,9 +285,10 @@ timerApp.calendar.backward = function() {
     }
 }
 // Function to fill all days in a month; the month and year are specified in the calendar nav bar
-timerApp.calendar.show = function(calendarDisplay, highlightIndex) {
+timerApp.calendar.show = function(calendarDisplay) {
     // clear calendar display for the new month
     calendarDisplay.html('');
+    $(timerApp.calendar.calendarDisplay.parent()).css('color', 'whitesmoke');
     // gather information about the new month
     let year = timerApp.calendar.chosenDate[0];
     let month = timerApp.calendar.chosenDate[1];
@@ -332,20 +344,75 @@ timerApp.calendar.searchDate = function(year, month, day) {
 // Function to handle user selection from calendar and start event countdown from current moment to selected future date and time
 timerApp.calendar.getUserChosenDate = function() {
     timerApp.calendar.calendarDisplay.on('click', 'li', function () {
-        timerApp.calendar.calendar.toggleClass('hidden');
         // Get user's chosen date and record it as new Date object
-        let chosenDay = timerApp.calendar.parseUserChoice($(this));
-        timerApp.calendar.userChosenDate = new Date(timerApp.calendar.chosenDate[0], timerApp.calendar.chosenDate[1], chosenDay);
+        timerApp.calendar.chosenDate[2] = timerApp.calendar.parseUserChoice($(this));
+        // Insert chosen day into calendar nav
+        timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav, ' '+timerApp.calendar.chosenDate[2]+' ');
+        // Hide contents of calendar display
+        timerApp.calendar.previousButton.addClass('hidden');
+        timerApp.calendar.nextButton.addClass('hidden');
+        timerApp.calendar.calendarDisplay.html('');
+        $(timerApp.calendar.calendarDisplay.parent()).css('color', '#3a3a3a');
+        // Show contents of time selection and submit button
+        timerApp.calendar.timeSelection.toggleClass('hidden');
+        timerApp.calendar.submitButton.toggleClass('hidden');
+        timerApp.calendar.getUserChosenTime();
+    });
+}
+// Function to check user's chosen time
+timerApp.calendar.checkUserChosenTime = function() {
+    if (timerApp.calendar.hourInput.val() > 12) { 
+        timerApp.calendar.hourInput.val(12); 
+    }
+    if (timerApp.calendar.minuteInput.val() > 59) {
+        timerApp.calendar.minuteInput.val(59);
+    }
+}
+// Function to get user's chosen time
+timerApp.calendar.getUserChosenTime = function() {
+    timerApp.calendar.submitButton.on('click', () => {
+        $(timerApp.calendar.calendarDisplay.parent()).css('color', 'whitesmoke');
+        timerApp.calendar.checkUserChosenTime();
+        let meridiem = timerApp.calendar.meridiem.text();
+        let hour = timerApp.calendar.hourInput.val();
+        if (meridiem === 'PM' && hour !== 12) { hour += 12 }
+        if (!hour || (hour === 12 && meridiem === 'AM')) { hour = 0; }
+        let minute = timerApp.calendar.minuteInput.val();
+        if (!minute) { minute = 0; }
+        timerApp.calendar.chosenDate[3] = hour;
+        timerApp.calendar.chosenDate[4] = minute;
+        timerApp.calendar.userChosenDate = new Date(timerApp.calendar.chosenDate[0], timerApp.calendar.chosenDate[1], timerApp.calendar.chosenDate[2], timerApp.calendar.chosenDate[3], timerApp.calendar.chosenDate[4]);
         // user timer.start() method to start the countdown timer if the countdown display is off. otherwise, clear the old setTimeout and start a new timer without toggling the countdown display
         if (timerApp.timer.Off) {
             timerApp.timer.start(timerApp.timer.convertUnits((timerApp.calendar.userChosenDate - timerApp.calendar.today.getTime()) / 1000));
         } else {
             timerApp.timer.timeValues = timerApp.timer.convertUnits((timerApp.calendar.userChosenDate - timerApp.calendar.today.getTime()) / 1000);
-            console.log(timerApp.timer.timeValues)
             clearTimeout(timerApp.timer.myTimer);
             timerApp.timer.startTimer(timerApp.timer.timeValues);
         }
-        
+        timerApp.calendar.resetDisplay();
+    });
+}
+// Function to reset calendar display after picking a future time
+timerApp.calendar.resetDisplay = function() {
+    timerApp.calendar.hourInput.val('');
+    timerApp.calendar.minuteInput.val('');
+    timerApp.calendar.calendar.addClass('hidden');
+    timerApp.calendar.timeSelection.addClass('hidden');
+    timerApp.calendar.submitButton.addClass('hidden');
+    timerApp.calendar.previousButton.removeClass('hidden');
+    timerApp.calendar.nextButton.removeClass('hidden');
+}
+// Function to toggle AM/PM
+timerApp.calendar.toggleMeridiem = function() {
+    timerApp.calendar.meridiem.on('click', () => {
+        let text = timerApp.calendar.meridiem.text();
+        if (text === 'AM') {
+            text = 'PM';
+        } else {
+            text = 'AM';
+        }
+        timerApp.calendar.meridiem.text(`${text}`);
     });
 }
 // Function to get user's chosen date
@@ -361,6 +428,7 @@ timerApp.calendar.init = function() {
     timerApp.calendar.show(timerApp.calendar.calendarDisplay);
     timerApp.calendar.changeMonth();
     timerApp.calendar.getUserChosenDate();
+    timerApp.calendar.toggleMeridiem();
 }
 
 
@@ -370,22 +438,26 @@ timerApp.animation.emojis = ['127809', '127810', '127809', '127810', '127811'];
 timerApp.animation.canvas = $('.endingAnimations');
 // Function to start animation based on a random number input; outcome is one of the programmed animations
 timerApp.animation.start = function (randomNumber) {
-    if (randomNumber > 50) {
-        // 4 explosions at random locations around the centre of the screen
-        timerApp.animation.explosion(25);
-        timerApp.animation.explosion(25);
-        timerApp.animation.explosion(25);
-        timerApp.animation.explosion(25);
-    } else {
-        timerApp.animation.fountain(100);
+    if (timerApp.settings.animationOn) {
+        if (randomNumber > 50) {
+            // 4 explosions at random locations around the centre of the screen
+            timerApp.animation.explosion(25);
+            timerApp.animation.explosion(25);
+            timerApp.animation.explosion(25);
+            timerApp.animation.explosion(25);
+        } else {
+            timerApp.animation.fountain(100);
+        }
     }
 }
 // Function that creats emphatic animations for the last 10 seconds of the countdown
 timerApp.animation.countdownAnimation = function (years, days, hours, minutes, seconds) {
-    if (seconds <= 10 && !timerApp.timer.checkTime([minutes, hours, days, years])) {
-        timerApp.animation.canvas.removeClass('hidden');
-        timerApp.animation.explosion(1);
-    }
+    if (timerApp.settings.animationOn) {
+        if (seconds <= 10 && !timerApp.timer.checkTime([minutes, hours, days, years])) {
+            timerApp.animation.canvas.removeClass('hidden');
+            timerApp.animation.explosion(1);
+        }
+    }   
 }
 // Function that creates an explosion of emojis
 timerApp.animation.explosion = function (numberOfEmojis) {
@@ -457,16 +529,40 @@ timerApp.animation.terminate = function (emoji) {
 }
 
 
+// SETTINGS MODULE
+timerApp.settings = {};
+timerApp.settings.button = $('.fa-cogs');
+timerApp.settings.checkbox = $('.checkbox');
+timerApp.settings.display = $('.settings');
+timerApp.settings.animationOn = false;
+// Function to open the settings overlay
+timerApp.settings.open = function() {
+    timerApp.settings.button.on('click', () => {
+        timerApp.settings.display.toggleClass('hidden');
+    });
+}
+// Handle checkbox and record the boolean result to enable/disable animations
+timerApp.settings.handleCheckbox = function() {
+    timerApp.settings.checkbox.on('click', () => {
+        timerApp.settings.checkbox.toggleClass('checked');
+        timerApp.settings.animationOn = !timerApp.settings.animationOn;
+    });
+}
+timerApp.settings.init = function() {
+    timerApp.settings.handleCheckbox();
+    timerApp.settings.open();
+}
+
 // General init function
 timerApp.init = function() {
     timerApp.timer.init();
     timerApp.calendar.init();
+    timerApp.settings.init();
     // timerApp.test.playCatherineWheel(500, 0);
 }
 
 $(document).ready(function() {
     timerApp.init()
-    
 })
 
 

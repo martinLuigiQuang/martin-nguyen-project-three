@@ -72,7 +72,9 @@
         display: grid;
         grid-template-areas:
         'instruction nav'
-        'instruction calendar';
+        'instruction calendar'
+        'time time'
+        'button button';
         left: 25px;
     }
     .instruction {
@@ -97,6 +99,14 @@
     }
     .display span {
         font-size: 80px;
+    }
+    .timeSelection {
+        grid-area: time;
+        transform: translate(110px, -200px);
+    }
+    .submitButton {
+        grid-area: button;
+        transform: translate(150px, -170px);
     }
     .hidden {
         display: none;

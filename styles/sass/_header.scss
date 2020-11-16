@@ -2,12 +2,13 @@ header {
     padding: 0 25px;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: center;
     a {
         text-decoration: none;
     }
     .fa-cogs {
-        margin-top: 25px;
+        margin-top: 20px;
         color: #EF767A;
+        cursor: pointer;
     }
 }
