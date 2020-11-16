@@ -383,7 +383,8 @@ timerApp.calendar.getUserChosenTime = function() {
         timerApp.calendar.chosenDate[4] = minute;
         timerApp.calendar.userChosenDate = new Date(timerApp.calendar.chosenDate[0], timerApp.calendar.chosenDate[1], timerApp.calendar.chosenDate[2], timerApp.calendar.chosenDate[3], timerApp.calendar.chosenDate[4], 0);
         // user timer.start() method to start the countdown timer if the countdown display is off. otherwise, clear the old setTimeout and start a new timer without toggling the countdown display
-        if (timerApp.timer.Off) {
+        timerApp.calendar.today = new Date();
+        f (timerApp.timer.Off) {
             timerApp.timer.start(timerApp.timer.convertUnits((timerApp.calendar.userChosenDate - timerApp.calendar.today.getTime()) / 1000));
         } else {
             timerApp.timer.timeValues = timerApp.timer.convertUnits((timerApp.calendar.userChosenDate - timerApp.calendar.today.getTime()) / 1000);
