@@ -232,7 +232,7 @@ timerApp.calendar.minuteInput = $('#minuteInput');
 timerApp.calendar.meridiem = $('.meridiem');
 timerApp.calendar.submitButton = $('.submitButton');
 timerApp.calendar.calendarIcon = $('.calendarIcon');
-timerApp.calendar.today;
+timerApp.calendar.today = new Date();
 timerApp.calendar.chosenDate = [timerApp.calendar.today.getFullYear(), timerApp.calendar.today.getMonth(), null, null, null];
 timerApp.calendar.userChosenDate;
 timerApp.calendar.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -325,7 +325,6 @@ timerApp.calendar.show = function(calendarDisplay) {
         } else {
             $(calendarDisplay[0].children[i]).css('background-color', 'rgba(0, 0, 0, 0.3)'); 
         }
-
     }
 }
 // Helper function to put the day numbers as strings on the calendar display
@@ -347,6 +346,7 @@ timerApp.calendar.getUserChosenDate = function() {
     timerApp.calendar.calendarDisplay.on('click', 'li', function () {
         // Get user's chosen date and record it as new Date object
         timerApp.calendar.chosenDate[2] = timerApp.calendar.parseUserChoice($(this));
+        console.log('here')
         // Insert chosen day into calendar nav
         timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav, ' '+timerApp.calendar.chosenDate[2]+' ');
         // Hide contents of calendar display
@@ -357,7 +357,7 @@ timerApp.calendar.getUserChosenDate = function() {
         // Show contents of time selection and submit button
         timerApp.calendar.timeSelection.toggleClass('hidden');
         timerApp.calendar.submitButton.toggleClass('hidden');
-        timerApp.calendar.getUserChosenTime();
+        
     });
 }
 // Function to check user's chosen time
@@ -375,14 +375,16 @@ timerApp.calendar.getUserChosenTime = function() {
         $(timerApp.calendar.calendarDisplay.parent()).css('color', 'whitesmoke');
         timerApp.calendar.checkUserChosenTime();
         let meridiem = timerApp.calendar.meridiem.text();
-        let hour = timerApp.calendar.hourInput.val();
+        let hour = parseInt(timerApp.calendar.hourInput.val());
         if (meridiem === 'PM' && hour !== 12) { hour += 12 }
         if (!hour || (hour === 12 && meridiem === 'AM')) { hour = 0; }
-        let minute = timerApp.calendar.minuteInput.val();
+        let minute = parseInt(timerApp.calendar.minuteInput.val());
         if (!minute) { minute = 0; }
         timerApp.calendar.chosenDate[3] = hour;
         timerApp.calendar.chosenDate[4] = minute;
-        timerApp.calendar.userChosenDate = new Date(timerApp.calendar.chosenDate[0], timerApp.calendar.chosenDate[1], timerApp.calendar.chosenDate[2], timerApp.calendar.chosenDate[3], timerApp.calendar.chosenDate[4]);
+        console.log(timerApp.calendar.chosenDate)
+        timerApp.calendar.userChosenDate = new Date(timerApp.calendar.chosenDate[0], timerApp.calendar.chosenDate[1], timerApp.calendar.chosenDate[2], timerApp.calendar.chosenDate[3], timerApp.calendar.chosenDate[4], 0);
+        console.log(timerApp.calendar.userChosenDate)
         // user timer.start() method to start the countdown timer if the countdown display is off. otherwise, clear the old setTimeout and start a new timer without toggling the countdown display
         if (timerApp.timer.Off) {
             timerApp.timer.start(timerApp.timer.convertUnits((timerApp.calendar.userChosenDate - timerApp.calendar.today.getTime()) / 1000));
@@ -429,6 +431,7 @@ timerApp.calendar.init = function() {
     timerApp.calendar.show(timerApp.calendar.calendarDisplay);
     timerApp.calendar.changeMonth();
     timerApp.calendar.getUserChosenDate();
+    timerApp.calendar.getUserChosenTime();
     timerApp.calendar.toggleMeridiem();
 }
 
@@ -442,10 +445,10 @@ timerApp.animation.start = function (randomNumber) {
     if (timerApp.settings.animationOn) {
         if (randomNumber > 50) {
             // 4 explosions at random locations around the centre of the screen
-            timerApp.animation.explosion(25);
-            timerApp.animation.explosion(25);
-            timerApp.animation.explosion(25);
-            timerApp.animation.explosion(25);
+            timerApp.animation.explosion(15);
+            timerApp.animation.explosion(15);
+            timerApp.animation.explosion(15);
+            timerApp.animation.explosion(15);
         } else {
             timerApp.animation.fountain(100);
         }
