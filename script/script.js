@@ -346,7 +346,6 @@ timerApp.calendar.getUserChosenDate = function() {
     timerApp.calendar.calendarDisplay.on('click', 'li', function () {
         // Get user's chosen date and record it as new Date object
         timerApp.calendar.chosenDate[2] = timerApp.calendar.parseUserChoice($(this));
-        console.log('here')
         // Insert chosen day into calendar nav
         timerApp.calendar.calendarNavControl(timerApp.calendar.calendarNav, ' '+timerApp.calendar.chosenDate[2]+' ');
         // Hide contents of calendar display
@@ -382,9 +381,7 @@ timerApp.calendar.getUserChosenTime = function() {
         if (!minute) { minute = 0; }
         timerApp.calendar.chosenDate[3] = hour;
         timerApp.calendar.chosenDate[4] = minute;
-        console.log(timerApp.calendar.chosenDate)
         timerApp.calendar.userChosenDate = new Date(timerApp.calendar.chosenDate[0], timerApp.calendar.chosenDate[1], timerApp.calendar.chosenDate[2], timerApp.calendar.chosenDate[3], timerApp.calendar.chosenDate[4], 0);
-        console.log(timerApp.calendar.userChosenDate)
         // user timer.start() method to start the countdown timer if the countdown display is off. otherwise, clear the old setTimeout and start a new timer without toggling the countdown display
         if (timerApp.timer.Off) {
             timerApp.timer.start(timerApp.timer.convertUnits((timerApp.calendar.userChosenDate - timerApp.calendar.today.getTime()) / 1000));
